@@ -1,4 +1,3 @@
-library(tidyverse)
 firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
   full_reduced_comments <- data.frame(page_count = NA, page_notes=NA, edit_distance=NA, identifier=NA)
@@ -51,12 +50,3 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
   full_reduced_comments[-1,]
 }
 
-library(readr)
-test_dataset <- read_csv("test_dataset.csv")
-names(test_dataset)
-firstnchar(dataset=test_dataset,
-notes="Notes",
-char_diff=3,
-identifier="ID",
-pageid="Page")
-test_dataset$"ID"
