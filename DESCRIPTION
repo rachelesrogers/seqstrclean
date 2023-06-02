@@ -1,14 +1,17 @@
 Package: seqstrclean
-Title: What the Package Does (One Line, Title Case)
+Title: Sequential String Cleaning
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Rachel", "Rogers", , "rachel.rogers@huskers.unl.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4145-9630"))
+Description: This package is used to clean sequential notes. Namely, to remove a previous page's notes from the current note sheet.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 URL: https://github.com/rachelesrogers/seqstrclean
 BugReports: https://github.com/rachelesrogers/seqstrclean/issues
+Imports: 
+    dplyr,
+    tidyselect,
+    utils
