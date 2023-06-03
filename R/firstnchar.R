@@ -53,17 +53,21 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
         reduced_comments[j-1,]$edit_distance <- 0
 
       }
-      reduced_comments[j-1,]$identifier <- unique_ids[i,]
+      reduced_comments[j-1,]$identifier <- as.numeric(unlist(unique_ids[i,]))
       reduced_comments[j-1,]$page_count <- j
 
     }
     full_reduced_comments <- rbind(full_reduced_comments, reduced_comments)
   }
-#   char_validation_set <- left_join(dataset, full_reduced_comments,
-#                                    by=paste("c(\"",pageid,"\",\"",identifier,"\")", sep=""))
-#
-# char_validation_set
 
-  full_reduced_comments[-1,]
+  colnames(full_reduced_comments)[colnames(full_reduced_comments) == "identifier"] = identifier
+  colnames(full_reduced_comments)[colnames(full_reduced_comments) == "page_count"] = pageid
+#  full_reduced_comments <- dplyr::rename(full_reduced_comments, parse(identifier) = "identifier", parse(pageid) = "page_count")
+  char_validation_set <- left_join(dataset, full_reduced_comments,
+                                   by=c(pageid, identifier))
+
+ char_validation_set
+
+ # full_reduced_comments[-1,]
 }
 
