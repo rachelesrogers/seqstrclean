@@ -29,7 +29,14 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
       print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
       break
     }
-    for (j in 2:max(by_id[[pageid]])){
+    for (j in 1:max(by_id[[pageid]])){
+      if (j == 1){
+        reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
+        reduced_comments[j,]$edit_distance <- NA
+        reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+        reduced_comments[j,]$page_count <- j
+
+      }else{
       if (length(by_id[by_id[[pageid]]==j,1]) > 1){
         print(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
         break
@@ -42,20 +49,21 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
         edit_distance <-utils::adist(previous_notes, by_id[by_id[[pageid]]==j-1,][[notes]])
         if (edit_distance < char_diff){ #Should only call nchar once - not do the same calculation twice
-          reduced_comments[j-1,]$page_notes <- substring(by_id[by_id[[pageid]]==j,][[notes]],nchar(by_id[by_id[[pageid]]==j-1,][[notes]])+1)
+          reduced_comments[j,]$page_notes <- substring(by_id[by_id[[pageid]]==j,][[notes]],nchar(by_id[by_id[[pageid]]==j-1,][[notes]])+1)
         }else{
-          reduced_comments[j-1,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
+          reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
         }
-        reduced_comments[j-1,]$edit_distance <- edit_distance
+        reduced_comments[j,]$edit_distance <- edit_distance
 
       }else{
-        reduced_comments[j-1,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
-        reduced_comments[j-1,]$edit_distance <- 0
+        reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
+        reduced_comments[j,]$edit_distance <- 0
 
       }
-      reduced_comments[j-1,]$identifier <- as.numeric(unlist(unique_ids[i,]))
-      reduced_comments[j-1,]$page_count <- j
+      reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+      reduced_comments[j,]$page_count <- j
 
+      }
     }
     full_reduced_comments <- rbind(full_reduced_comments, reduced_comments)
   }
