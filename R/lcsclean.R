@@ -29,7 +29,13 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
       print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
       break
     }
-    for (j in 2:max(by_id[[pageid]])){
+    for (j in 1:max(by_id[[pageid]])){
+      if (j == 1){
+        reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
+        reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+        reduced_comments[j,]$page_count <- j
+
+      }else {
       if (length(by_id[by_id[[pageid]]==j,1]) > 1){
         print(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
         break
@@ -38,7 +44,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
       ## Removing Emojis ####
       previous_notes <- gsub("[^\x01-\x7F]", "",by_id[by_id[[pageid]]==j-1,][[notes]])
       current_notes <- gsub("[^\x01-\x7F]", "",by_id[by_id[[pageid]]==j,][[notes]])
-      reduced_comments[j-1,]$page_notes <- current_notes
+      reduced_comments[j,]$page_notes <- current_notes
 
       if (nchar(previous_notes) > 0){
 
@@ -46,17 +52,23 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
         longest_val <- propor*nchar(previous_notes)
 
         while (nchar(longest_sub) > longest_val){
-          reduced_comments[j-1,]$page_notes <- gsub(longest_sub,"",
-                                                    reduced_comments[j-1,]$page_notes,fixed=TRUE)
-          longest_sub <- PTXQC::LCS(previous_notes, reduced_comments[j-1,]$page_notes)
+          reduced_comments[j,]$page_notes <- gsub(longest_sub,"",
+                                                    reduced_comments[j,]$page_notes,fixed=TRUE)
+          longest_sub <- PTXQC::LCS(previous_notes, reduced_comments[j,]$page_notes)
         }
 
       }
-      reduced_comments[j-1,]$identifier <- unique_ids[i,]
-      reduced_comments[j-1,]$page_count <- j
+      reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+      reduced_comments[j,]$page_count <- j
 
     }
+  }
     reduced_comments_substring <- rbind(reduced_comments_substring, reduced_comments)
   }
-  reduced_comments_substring[-1,]
+  colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "identifier"] = identifier
+  colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "page_count"] = pageid
+  char_validation_set <- left_join(dataset, reduced_comments_substring,
+                                   by=c(pageid, identifier))
+
+  char_validation_set
 }
