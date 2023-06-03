@@ -13,5 +13,6 @@ URL: https://github.com/rachelesrogers/seqstrclean
 BugReports: https://github.com/rachelesrogers/seqstrclean/issues
 Imports: 
     dplyr,
+    PTXQC,
     tidyselect,
     utils

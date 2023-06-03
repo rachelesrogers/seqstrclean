@@ -31,7 +31,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
     }
     for (j in 2:max(by_id[[pageid]])){
       if (length(by_id[by_id[[pageid]]==j,1]) > 1){
-        print(paste("Multiple Page", j, "for ID", unique_ids[i], sep= " "))
+        print(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
         break
 
       }
