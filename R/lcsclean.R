@@ -23,7 +23,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
   for (i in 1:dim(unique_ids)[1]){
     reduced_comments <- data.frame(page_count = NA, page_notes=NA, identifier=NA)
 
-    by_id <- dataset[dataset[[identifier]]==as.numeric(unique_ids[i,]),]
+    by_id <- dataset[dataset[[identifier]]==unlist(unique_ids[i,]),]
 
     if (length(by_id[by_id[[pageid]]==1,1]) > 1){
       print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
@@ -32,7 +32,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
     for (j in 1:max(by_id[[pageid]])){
       if (j == 1){
         reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
-        reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+        reduced_comments[j,]$identifier <- unlist(unique_ids[i,])
         reduced_comments[j,]$page_count <- j
 
       }else {
@@ -58,7 +58,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
         }
 
       }
-      reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+      reduced_comments[j,]$identifier <- unlist(unique_ids[i,])
       reduced_comments[j,]$page_count <- j
 
     }
@@ -67,7 +67,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
   }
   colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "identifier"] = identifier
   colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "page_count"] = pageid
-  char_validation_set <- left_join(dataset, reduced_comments_substring,
+  char_validation_set <- dplyr::left_join(dataset, reduced_comments_substring,
                                    by=c(pageid, identifier))
 
   char_validation_set

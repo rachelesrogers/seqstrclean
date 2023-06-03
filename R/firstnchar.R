@@ -24,7 +24,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
   for (i in 1:dim(unique_ids)[1]){
     reduced_comments <- data.frame(page_count = NA, page_notes=NA, edit_distance=NA, identifier=NA)
-    by_id <- dataset[dataset[[identifier]]==as.numeric(unique_ids[i,]),]
+    by_id <- dataset[dataset[[identifier]]==unlist(unique_ids[i,]),]
     if (length(by_id[by_id[[pageid]]==1,1]) > 1){
       print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
       break
@@ -33,7 +33,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
       if (j == 1){
         reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
         reduced_comments[j,]$edit_distance <- NA
-        reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+        reduced_comments[j,]$identifier <- unlist(unique_ids[i,])
         reduced_comments[j,]$page_count <- j
 
       }else{
@@ -60,7 +60,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
         reduced_comments[j,]$edit_distance <- 0
 
       }
-      reduced_comments[j,]$identifier <- as.numeric(unlist(unique_ids[i,]))
+      reduced_comments[j,]$identifier <- unlist(unique_ids[i,])
       reduced_comments[j,]$page_count <- j
 
       }
@@ -71,7 +71,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
   colnames(full_reduced_comments)[colnames(full_reduced_comments) == "identifier"] = identifier
   colnames(full_reduced_comments)[colnames(full_reduced_comments) == "page_count"] = pageid
 #  full_reduced_comments <- dplyr::rename(full_reduced_comments, parse(identifier) = "identifier", parse(pageid) = "page_count")
-  char_validation_set <- left_join(dataset, full_reduced_comments,
+  char_validation_set <- dplyr::left_join(dataset, full_reduced_comments,
                                    by=c(pageid, identifier))
 
  char_validation_set
