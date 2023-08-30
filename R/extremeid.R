@@ -20,7 +20,7 @@ extremeid <- function(dataset, extreme, clean_notes, pageid, group_list=NA){
   dataset$note_length <- nchar(dataset[[clean_notes]])
  if (is.na(group_list)){
    summary_info <- dataset %>%
-     dplyr::group_by(pageid) %>%
+     dplyr::group_by(deparse(substitute(pageid))) %>%
      dplyr::summarise (outlier = mean(note_length)+extreme*stats::sd(note_length), mean=mean(note_length), sd = stats::sd(note_length))
    combined_dataset <- dataset
    combined_dataset$outlier <- summary_info$outlier
@@ -29,7 +29,7 @@ extremeid <- function(dataset, extreme, clean_notes, pageid, group_list=NA){
 
  }else{
 summary_info <- dataset %>%
-  dplyr::group_by(append(pageid,group_list)) %>%
+  dplyr::group_by(append(deparse(substitute(pageid)),group_list)) %>%
   dplyr::summarise (outlier = mean(note_length)+extreme*stats::sd(note_length), mean=mean(note_length), sd = stats::sd(note_length))
 combined_dataset <- dplyr::left_join(dataset, summary_info, by=group_list)
 }
