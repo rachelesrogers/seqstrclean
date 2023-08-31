@@ -25,7 +25,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
   for (i in 1:dim(unique_ids)[1]){
     reduced_comments <- data.frame(page_count = NA, page_notes=NA, edit_distance=NA, identifier=NA)
     by_id <- dataset[dataset[[identifier]]==unlist(unique_ids[i,]),]
-    if (length(by_id[by_id[[pageid]]==1,1]) > 1){
+    if (dim(by_id[by_id[[pageid]]==1,1])[1] > 1){
       print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
       break
     }
@@ -37,7 +37,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
         reduced_comments[j,]$page_count <- j
 
       }else{
-      if (length(by_id[by_id[[pageid]]==j,1]) > 1){
+      if (dim(by_id[by_id[[pageid]]==j,])[1] > 1){
         print(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
         break
 
