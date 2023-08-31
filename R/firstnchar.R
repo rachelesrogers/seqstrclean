@@ -45,7 +45,8 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
       previous_notes <- substr(by_id[by_id[[pageid]]==j,][[notes]], 1, nchar(by_id[by_id[[pageid]]==j-1,][[notes]]))
 
-      if (nchar(previous_notes) > 0){
+      if (!is.na(nchar(previous_notes))){
+        if (nchar(previous_notes) > 0){
 
         edit_distance <-utils::adist(previous_notes, by_id[by_id[[pageid]]==j-1,][[notes]])
         if (edit_distance < char_diff){ #Should only call nchar once - not do the same calculation twice
@@ -60,6 +61,10 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
         reduced_comments[j,]$edit_distance <- 0
 
       }
+        }else{
+          reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
+          reduced_comments[j,]$edit_distance <- 0
+        }
       reduced_comments[j,]$identifier <- unlist(unique_ids[i,])
       reduced_comments[j,]$page_count <- j
 
