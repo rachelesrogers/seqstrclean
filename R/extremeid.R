@@ -23,14 +23,14 @@ extremeid <- function(dataset, extreme, clean_notes, pageid, group_list=NA){
      dplyr::group_by_at(pageid) %>%
      dplyr::summarise (outlier = mean(note_length, na.rm=TRUE)+extreme*stats::sd(note_length, na.rm=TRUE),
                        mean=mean(note_length, na.rm=TRUE), sd = stats::sd(note_length, na.rm=TRUE))
-   combined_dataset <- dplyr::left_join(dataset, summary_info) #problem with by= statement (can't find right form)
+   combined_dataset <- dplyr::left_join(dataset, summary_info, by = {{pageid}}) #problem with by= statement (can't find right form)
  }else{
    groups <- append(group_list, pageid)
 summary_info <- dataset %>%
   dplyr::group_by_at(groups) %>%
   dplyr::summarise (outlier = mean(note_length, na.rm=TRUE)+extreme*stats::sd(note_length, na.rm=TRUE),
                     mean=mean(note_length, na.rm=TRUE), sd = stats::sd(note_length, na.rm=TRUE))
-combined_dataset <- dplyr::left_join(dataset, summary_info)
+combined_dataset <- dplyr::left_join(dataset, summary_info, by = {{groups}})
 }
 combined_dataset
 
