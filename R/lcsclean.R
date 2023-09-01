@@ -25,7 +25,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
 
     by_id <- dataset[dataset[[identifier]]==unlist(unique_ids[i,]),]
 
-    if (length(by_id[by_id[[pageid]]==1,1]) > 1){
+    if (dim(by_id[by_id[[pageid]]==1,])[1] > 1){
       print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
       break
     }
@@ -36,7 +36,7 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
         reduced_comments[j,]$page_count <- j
 
       }else {
-      if (length(by_id[by_id[[pageid]]==j,1]) > 1){
+      if (dim(by_id[by_id[[pageid]]==j,])[1] > 1){
         print(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
         break
 
