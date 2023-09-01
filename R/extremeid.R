@@ -18,6 +18,11 @@
 extremeid <- function(dataset, extreme, clean_notes, pageid, group_list=NA){
   `%>%` <- magrittr::`%>%`
   dataset$note_length <- nchar(dataset[[clean_notes]])
+
+  if (sum(is.na(dataset$note_length))>0){
+    dataset[is.na(dataset$note_length),]$note_length <- 0
+    }
+
  if (is.na(group_list)){
    summary_info <- dataset %>%
      dplyr::group_by_at(pageid) %>%
