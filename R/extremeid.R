@@ -31,7 +31,8 @@ summary_info <- dataset %>%
   dplyr::summarise (outlier = mean(note_length, na.rm=TRUE)+extreme*stats::sd(note_length, na.rm=TRUE),
                     mean=mean(note_length, na.rm=TRUE), sd = stats::sd(note_length, na.rm=TRUE))
 combined_dataset <- dplyr::left_join(dataset, summary_info, by = {{groups}})
-}
+ }
+  combined_dataset$extreme_value <- combined_dataset$note_length > combined_dataset$outlier
 combined_dataset
 
 }
