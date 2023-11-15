@@ -174,3 +174,190 @@ lcsclean(test_dataset,"Notes",0.25,"ID","Page")
 However, if the threshold is reduced further to 0.25 (or 1/4 of the
 previous notes), “chased” will be removed from the second page of notes
 as well, leaving only “the goat” in the clean notes.
+
+### Hybrid Method
+
+For this method, a larger dataset may be necessary to demonstrate the
+presence of outliers.
+
+``` r
+library(kableExtra)
+fnc<-firstnchar(validation_dataset, "notes", 15, "clean_prints", "page_count")
+
+kable(head(fnc))
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+clean_prints
+</th>
+<th style="text-align:right;">
+page_count
+</th>
+<th style="text-align:left;">
+notes
+</th>
+<th style="text-align:left;">
+corrected_notes
+</th>
+<th style="text-align:left;">
+page_notes
+</th>
+<th style="text-align:right;">
+edit_distance
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:left;">
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:left;">
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith-
+</td>
+<td style="text-align:left;">
+terry smith-
+</td>
+<td style="text-align:left;">
+terry smith-
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam.
+</td>
+<td style="text-align:left;">
+/ cop - firearm exam.
+</td>
+<td style="text-align:left;">
+cop - firearm exam.
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity?
+</td>
+<td style="text-align:left;">
+? bullet match algorithm- score for similarity - more likely. combine
+with personal judgement. ? hunch and ratio of similarity?
+</td>
+<td style="text-align:left;">
+? bullet match algorithm- score for similarity - more likely. combine
+with personal judgement. ? hunch and ratio of similarity?
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>

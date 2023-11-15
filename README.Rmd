@@ -108,3 +108,16 @@ lcsclean(test_dataset,"Notes",0.25,"ID","Page")
 ```
 
 However, if the threshold is reduced further to 0.25 (or 1/4 of the previous notes), "chased" will be removed from the second page of notes as well, leaving only "the goat" in the clean notes.
+
+
+### Hybrid Method
+
+For this method, a larger dataset may be necessary to demonstrate the presence of outliers.
+
+
+```{r hybrid_dataset}
+library(kableExtra)
+fnc<-firstnchar(validation_dataset, "notes", 15, "clean_prints", "page_count")
+
+kable(head(fnc))
+```

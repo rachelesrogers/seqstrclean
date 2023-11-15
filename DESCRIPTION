@@ -17,3 +17,6 @@ Imports:
     PTXQC,
     tidyselect,
     utils
+Depends: 
+    R (>= 2.10)
+LazyData: true

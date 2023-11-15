@@ -11,10 +11,11 @@
 #' @export
 #'
 #' @examples
-#' test_dataset <- data.frame(ID=c("1","1","2","2","1", "3","3"),
+#' test_dataset <- data.frame(ID=c("1","1","2","2","1", "3", "3"),
 #' Notes=c("The","The cat","The","The dog","The cat ran", "the chicken was chased", "The goat chased the chicken"),
 #' Page=c(1,2,1,2,3,1,2))
 #' firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
+
 firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
   full_reduced_comments <- data.frame(page_count = NA, page_notes=NA, edit_distance=NA, identifier=NA)
