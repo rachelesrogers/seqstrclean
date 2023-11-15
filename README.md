@@ -177,12 +177,22 @@ as well, leaving only “the goat” in the clean notes.
 
 ### Hybrid Method
 
+The third method attempts to combine the speed of the First N Character
+method with the accuracy of the Longest Common Substring method. This
+works by first applying the First N Character method, then applying the
+Longest Common Substring method for difficult cases - either when the
+edit distance is too large for the First N Character method to remove
+notes (such as the chicken chasing example above), or when the length of
+the cleaned notes is unusually large. Unusually large is defined as more
+than a set number of standard deviations above the mean clean note
+length, and is calculated using the extremeid function.
+
 For this method, a larger dataset may be necessary to demonstrate the
-presence of outliers.
+presence of outliers, in terms of note size.
 
 ``` r
 library(kableExtra)
-fnc<-firstnchar(validation_dataset, "notes", 15, "clean_prints", "page_count")
+fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
 kable(head(fnc))
 ```
@@ -201,6 +211,9 @@ notes
 </th>
 <th style="text-align:left;">
 corrected_notes
+</th>
+<th style="text-align:left;">
+algorithm
 </th>
 <th style="text-align:left;">
 page_notes
@@ -225,6 +238,9 @@ NA
 NA
 </td>
 <td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
 NA
 </td>
 <td style="text-align:right;">
@@ -243,6 +259,9 @@ discharge firearm in business- felony, not guilty
 </td>
 <td style="text-align:left;">
 discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 discharge firearm in business- felony, not guilty
@@ -268,6 +287,9 @@ testing.
 <td style="text-align:left;">
 ski mask. no money, no injuries. 9mm, arrested after confiscated and
 testing.
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 ski mask. no money, no injuries. 9mm, arrested after confiscated and
@@ -297,6 +319,9 @@ terry smith-
 terry smith-
 </td>
 <td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
 terry smith-
 </td>
 <td style="text-align:right;">
@@ -321,6 +346,9 @@ terry smith/ cop - firearm exam.
 </td>
 <td style="text-align:left;">
 / cop - firearm exam.
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 cop - firearm exam.
@@ -352,11 +380,681 @@ ratio of similarity?
 with personal judgement. ? hunch and ratio of similarity?
 </td>
 <td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
 ? bullet match algorithm- score for similarity - more likely. combine
 with personal judgement. ? hunch and ratio of similarity?
 </td>
 <td style="text-align:right;">
 0
+</td>
+</tr>
+</tbody>
+</table>
+
+Above demonstrates the validation dataset cleaned using the First N
+Character method, with a character difference cutoff of 16 (meaning that
+up to and including a 15 character difference is acceptable). In order
+to determine if there are any extremely long note pages that should be
+considered for the Longest Common Substring method, the extremeid
+function is applied. Here, extreme values are defined as those that are
+larger than 4 standard deviations above the mean page length, based on
+algorithm condition (because these resulted in different pages, and thus
+different notes).
+
+``` r
+
+extreme_dataset <- extremeid(dataset=fnc, extreme=4, clean_notes="page_notes", 
+                             pageid="page_count", group_list = c("algorithm"))
+
+kable(head(extreme_dataset))
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+clean_prints
+</th>
+<th style="text-align:right;">
+page_count
+</th>
+<th style="text-align:left;">
+notes
+</th>
+<th style="text-align:left;">
+corrected_notes
+</th>
+<th style="text-align:left;">
+algorithm
+</th>
+<th style="text-align:left;">
+page_notes
+</th>
+<th style="text-align:right;">
+edit_distance
+</th>
+<th style="text-align:right;">
+note_length
+</th>
+<th style="text-align:right;">
+outlier
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:left;">
+extreme_value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+515.21182
+</td>
+<td style="text-align:right;">
+101.681818
+</td>
+<td style="text-align:right;">
+103.38250
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:left;">
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+2445.47040
+</td>
+<td style="text-align:right;">
+408.318182
+</td>
+<td style="text-align:right;">
+509.28805
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith-
+</td>
+<td style="text-align:left;">
+terry smith-
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+terry smith-
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+49.98656
+</td>
+<td style="text-align:right;">
+3.181818
+</td>
+<td style="text-align:right;">
+11.70119
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam.
+</td>
+<td style="text-align:left;">
+/ cop - firearm exam.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+cop - firearm exam.
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1844.37525
+</td>
+<td style="text-align:right;">
+231.909091
+</td>
+<td style="text-align:right;">
+403.11654
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity?
+</td>
+<td style="text-align:left;">
+? bullet match algorithm- score for similarity - more likely. combine
+with personal judgement. ? hunch and ratio of similarity?
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+? bullet match algorithm- score for similarity - more likely. combine
+with personal judgement. ? hunch and ratio of similarity?
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+132
+</td>
+<td style="text-align:right;">
+3729.87655
+</td>
+<td style="text-align:right;">
+383.545455
+</td>
+<td style="text-align:right;">
+836.58277
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+
+The comments that should then be considered using the Longest Common
+Substring method are those with an extremely large amount of notes
+(extreme_value=TRUE), and those with an edit distance above the cutoff
+used in the First N Character method (larger than 15). Note that the
+previous page of notes is also necessary for comparison in the Longest
+Common Substring method.
+
+``` r
+
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following object is masked from 'package:kableExtra':
+#> 
+#>     group_rows
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(extreme_value==TRUE | edit_distance > 15, TRUE, FALSE))
+
+kable(head(extreme_dataset))
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+clean_prints
+</th>
+<th style="text-align:right;">
+page_count
+</th>
+<th style="text-align:left;">
+notes
+</th>
+<th style="text-align:left;">
+corrected_notes
+</th>
+<th style="text-align:left;">
+algorithm
+</th>
+<th style="text-align:left;">
+page_notes
+</th>
+<th style="text-align:right;">
+edit_distance
+</th>
+<th style="text-align:right;">
+note_length
+</th>
+<th style="text-align:right;">
+outlier
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:left;">
+extreme_value
+</th>
+<th style="text-align:left;">
+apply_lcs
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+discharge firearm in business- felony, not guilty
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+515.21182
+</td>
+<td style="text-align:right;">
+101.681818
+</td>
+<td style="text-align:right;">
+103.38250
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:left;">
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+2445.47040
+</td>
+<td style="text-align:right;">
+408.318182
+</td>
+<td style="text-align:right;">
+509.28805
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith-
+</td>
+<td style="text-align:left;">
+terry smith-
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+terry smith-
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+49.98656
+</td>
+<td style="text-align:right;">
+3.181818
+</td>
+<td style="text-align:right;">
+11.70119
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam.
+</td>
+<td style="text-align:left;">
+/ cop - firearm exam.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+cop - firearm exam.
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1844.37525
+</td>
+<td style="text-align:right;">
+231.909091
+</td>
+<td style="text-align:right;">
+403.11654
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity?
+</td>
+<td style="text-align:left;">
+? bullet match algorithm- score for similarity - more likely. combine
+with personal judgement. ? hunch and ratio of similarity?
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+? bullet match algorithm- score for similarity - more likely. combine
+with personal judgement. ? hunch and ratio of similarity?
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+132
+</td>
+<td style="text-align:right;">
+3729.87655
+</td>
+<td style="text-align:right;">
+383.545455
+</td>
+<td style="text-align:right;">
+836.58277
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+FALSE
 </td>
 </tr>
 </tbody>
