@@ -59,40 +59,40 @@ first n characters will be removed from the current page.
 library(seqstrclean)
 
 test_dataset <- data.frame(ID=c("1","1","2","2","1", "3", "3"),
-Notes=c("The","The cat","The","The dog","The cat ran", "The goat", "The chicken is white"),
+Notes=c("The","The cat","The","The dog","The cat ran", "the chicken was chased", "The goat chased the chicken"),
 Page=c(1,2,1,2,3,1,2))
 
 test_dataset
-#>   ID                Notes Page
-#> 1  1                  The    1
-#> 2  1              The cat    2
-#> 3  2                  The    1
-#> 4  2              The dog    2
-#> 5  1          The cat ran    3
-#> 6  3             The goat    1
-#> 7  3 The chicken is white    2
+#>   ID                       Notes Page
+#> 1  1                         The    1
+#> 2  1                     The cat    2
+#> 3  2                         The    1
+#> 4  2                     The dog    2
+#> 5  1                 The cat ran    3
+#> 6  3      the chicken was chased    1
+#> 7  3 The goat chased the chicken    2
 ```
 
 In the test dataset shown above, there are third note-takes (identified
 by ID number), and 2-3 pages of notes. The first individual wrote “The”,
 “cat”, and “ran” sequentially on their notes, with one word per page.
 The second individual wrote “The” and “dog” sequentially. The third
-individual wrote “The goat” on the first page, and “The chicken is
-white” on the second page, which does not reflect sequential note-takig.
-The First N Character method can be used to separate these notes, based
-on what was written per page.
+individual wrote “the chicken was chased” on the first page, and “The
+goat chased the chicken” on the second page, which does not reflect
+sequential note-taking. The First N Character method can be used to
+separate these notes, based on what was written per page.
 
 ``` r
 
 firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
-#>   ID                Notes Page           page_notes edit_distance
-#> 1  1                  The    1                  The            NA
-#> 2  1              The cat    2                  cat             0
-#> 3  2                  The    1                  The            NA
-#> 4  2              The dog    2                  dog             0
-#> 5  1          The cat ran    3                  ran             0
-#> 6  3             The goat    1             The goat            NA
-#> 7  3 The chicken is white    2 The chicken is white             4
+#>   ID                       Notes Page                  page_notes edit_distance
+#> 1  1                         The    1                         The            NA
+#> 2  1                     The cat    2                         cat             0
+#> 3  2                         The    1                         The            NA
+#> 4  2                     The dog    2                         dog             0
+#> 5  1                 The cat ran    3                         ran             0
+#> 6  3      the chicken was chased    1      the chicken was chased            NA
+#> 7  3 The goat chased the chicken    2 The goat chased the chicken            17
 ```
 
 Here, page_notes displays the clean notes, and edit_distance refers to
