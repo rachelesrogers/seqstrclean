@@ -11,11 +11,13 @@
 #' @export
 #'
 #' @examples
-#' test_dataset <- data.frame(ID=c("1","1","2","2","1"),
-#' Notes=c("The","The cat","The","The dog","The cat ran"),
-#' Page=c(1,2,1,2,3))
+#' test_dataset <- data.frame(ID=c("1","1","2","2","1", "3","3"),
+#' Notes=c("The","The cat","The","The dog","The cat ran", "The goat chased the chicken"),
+#' Page=c(1,2,1,2,3,1,2))
 #' lcsclean(test_dataset,"Notes",0.5,"ID","Page")
+
 lcsclean <- function(dataset, notes, propor, identifier, pageid){
+  #Currently case-sensitive.
 
   reduced_comments_substring <- data.frame(page_count = NA, page_notes=NA, identifier=NA)
   unique_ids <- unique(dplyr::select(dataset,tidyselect::all_of(identifier)))
