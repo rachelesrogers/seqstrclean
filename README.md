@@ -733,7 +733,7 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(extreme_value==TRUE | edit_distance > 15, TRUE, FALSE))
+extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
 kable(head(extreme_dataset))
 ```
@@ -821,7 +821,7 @@ NA
 FALSE
 </td>
 <td style="text-align:left;">
-NA
+FALSE
 </td>
 </tr>
 <tr>
@@ -1059,3 +1059,1877 @@ FALSE
 </tr>
 </tbody>
 </table>
+
+Observations where “apply_lcs” is true indicate those difficult cases.
+They can then be run through the hybrid application of lcs to clean the
+remaining notes.
+
+``` r
+
+hybrid_dataset <- lcsclean_hybrid(dataset=extreme_dataset, notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
+
+kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,]))
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+clean_prints
+</th>
+<th style="text-align:right;">
+page_count
+</th>
+<th style="text-align:left;">
+notes
+</th>
+<th style="text-align:left;">
+corrected_notes
+</th>
+<th style="text-align:left;">
+algorithm
+</th>
+<th style="text-align:left;">
+page_notes
+</th>
+<th style="text-align:right;">
+edit_distance
+</th>
+<th style="text-align:right;">
+note_length
+</th>
+<th style="text-align:right;">
+outlier
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:left;">
+extreme_value
+</th>
+<th style="text-align:left;">
+apply_lcs
+</th>
+<th style="text-align:left;">
+lcs_notes
+</th>
+<th style="text-align:left;">
+hybrid_notes
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity? algo is from 2020.
+
+opinions and facts. lands, raised, by manuftr, cut into barrel.
+essentially what those lands do is grip a bullet and spin it, and as
+that bullet passes down the barrel, it scratches the random
+imperfections of that barrel into the bullet. you do two at a time. That
+way you have a fired bullet to compare to another fired bullet. compare
+my test shot to test shot. then I would compare it to the fired
+evidence.
+
+And how about the number of lands and direction of twist for the test
+fires? A: It also had six lands, and twisted to the right.
+
+significant disagreement in individual characteristics- When I see
+disagreement in multiple areas of the bullet
+
+Ai- where 1 indicates a clear match, and 0 indicates that there is not a
+match. match score was 0.034
+
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+</td>
+<td style="text-align:left;">
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity? algo is from 2020.
+
+opinions and facts. lands, raised, by manuftr, cut into barrel.
+essentially what those lands do is grip a bullet and spin it, and as
+that bullet passes down the barrel, it scratches the random
+imperfections of that barrel into the bullet. you do two at a time. That
+way you have a fired bullet to compare to another fired bullet. compare
+my test shot to test shot. then I would compare it to the fired
+evidence.
+
+And how about the number of lands and direction of twist for the test
+fires? A: It also had six lands, and twisted to the right.
+
+significant disagreement in individual characteristics- When I see
+disagreement in multiple areas of the bullet
+
+Ai- where 1 indicates a clear match, and 0 indicates that there is not a
+match. match score was 0.034
+
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+1250
+</td>
+<td style="text-align:right;">
+6018.644
+</td>
+<td style="text-align:right;">
+517.2273
+</td>
+<td style="text-align:right;">
+1375.354
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+</td>
+<td style="text-align:left;">
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity? algo is from 2020.
+
+opinions and facts. lands, raised, by manuftr, cut into barrel.
+essentially what those lands do is grip a bullet and spin it, and as
+that bullet passes down the barrel, it scratches the random
+imperfections of that barrel into the bullet. you do two at a time. That
+way you have a fired bullet to compare to another fired bullet. compare
+my test shot to test shot. then I would compare it to the fired
+evidence.
+
+And how about the number of lands and direction of twist for the test
+fires? A: It also had six lands, and twisted to the right.
+
+significant disagreement in individual characteristics- When I see
+disagreement in multiple areas of the bullet
+
+Ai- where 1 indicates a clear match, and 0 indicates that there is not a
+match. match score was 0.034
+
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+
+The false negative identification rate is less than three percent. My
+opinion, I am 100 percent sure that these bullets were fired from
+different firearms.
+</td>
+<td style="text-align:left;">
+The false negative identification rate is less than three percent. My
+opinion, I am 100 percent sure that these bullets were fired from
+different firearms.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+
+discharge firearm in business- felony, not guilty
+
+ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing.
+
+terry smith/ cop - firearm exam. ? bullet match algorithm- score for
+similarity - more likely. combine with personal judgement. ? hunch and
+ratio of similarity? algo is from 2020.
+
+opinions and facts. lands, raised, by manuftr, cut into barrel.
+essentially what those lands do is grip a bullet and spin it, and as
+that bullet passes down the barrel, it scratches the random
+imperfections of that barrel into the bullet. you do two at a time. That
+way you have a fired bullet to compare to another fired bullet. compare
+my test shot to test shot. then I would compare it to the fired
+evidence.
+
+And how about the number of lands and direction of twist for the test
+fires? A: It also had six lands, and twisted to the right.
+
+significant disagreement in individual characteristics- When I see
+disagreement in multiple areas of the bullet
+
+Ai- where 1 indicates a clear match, and 0 indicates that there is not a
+match. match score was 0.034
+
+there is not a fixed amount or a numerical value for my visual
+comparison. For the algorithm, however, a score below 0.3 is a general
+indicator of sufficient disagreement.
+
+The false negative identification rate is less than three percent. My
+opinion, I am 100 percent sure that these bullets were fired from
+different firearms.
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+1430
+</td>
+<td style="text-align:right;">
+11617.710
+</td>
+<td style="text-align:right;">
+892.9091
+</td>
+<td style="text-align:right;">
+2681.200
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+The false negative identification rate is less than three percent. My
+opinion, I am 100 percent sure that these bullets were fired from
+different firearms.
+</td>
+<td style="text-align:left;">
+The false negative identification rate is less than three percent. My
+opinion, I am 100 percent sure that these bullets were fired from
+different firearms.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+</td>
+<td style="text-align:left;">
+
+A: No. When firing a firearm there is a dynamic process because it is a
+contained explosion. When the firing pin hits the primer, which is
+basically the initiator, what gets it going, it will explode, burn the
+gun powder inside the casing, and the bullet will travel down the
+barrel, picking up the microscopic imperfections of the barrel, and the
+cartridge case will slam rearward against the support mechanism. During
+that dynamic process, each time it happens, a bullet will be marked
+slightly differently from one to the next.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+</td>
+<td style="text-align:right;">
+1062
+</td>
+<td style="text-align:right;">
+6035
+</td>
+<td style="text-align:right;">
+16832.658
+</td>
+<td style="text-align:right;">
+1243.9545
+</td>
+<td style="text-align:right;">
+3897.176
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+A: No. When firing a firearm there is a dynamic process because it is a
+contained explosion. When the firing pin hits the primer, which is
+basically the initiator, what gets it going, it will explode, burn the
+gun powder inside the casing, and the bullet will travel down the
+barrel, picking up the microscopic imperfections of the barrel, and the
+cartridge case will slam rearward against the support mechanism. During
+that dynamic process, each time it happens, a bullet will be marked
+slightly differently from one to the nextQ: Is it the local police
+department’s protocol to have somebody else who’s a firearms tool mark
+examiner in your lab review that report, review your work, and determine
+if it’s correct?A: Yes.Q: That’s what we call peer review?A: Peer
+review, yes.
+</td>
+<td style="text-align:left;">
+A: No. When firing a firearm there is a dynamic process because it is a
+contained explosion. When the firing pin hits the primer, which is
+basically the initiator, what gets it going, it will explode, burn the
+gun powder inside the casing, and the bullet will travel down the
+barrel, picking up the microscopic imperfections of the barrel, and the
+cartridge case will slam rearward against the support mechanism. During
+that dynamic process, each time it happens, a bullet will be marked
+slightly differently from one to the nextQ: Is it the local police
+department’s protocol to have somebody else who’s a firearms tool mark
+examiner in your lab review that report, review your work, and determine
+if it’s correct?A: Yes.Q: That’s what we call peer review?A: Peer
+review, yes.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+</td>
+<td style="text-align:left;">
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+</td>
+<td style="text-align:right;">
+94
+</td>
+<td style="text-align:right;">
+6372
+</td>
+<td style="text-align:right;">
+6018.644
+</td>
+<td style="text-align:right;">
+517.2273
+</td>
+<td style="text-align:right;">
+1375.354
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement?A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+</td>
+<td style="text-align:left;">
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement?A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+
+Q: The software uses modeling; is that correct? A: Yes, it does.
+
+Q: You, personally, don’t know the source code; is that correct? A:
+That’s correct.
+
+Q: And, in fact, you, personally, would not be able to tell us the
+specific math that goes into this program; is that fair to say? A: We
+did receive training on what the math is doing in general terms, but I
+am not a statistician, and would prefer to let them speak to that.
+
+—Questions Submitted By the Jury—
+
+The Court: Terry Smith, the jury has asked me to forward this question
+to you. Answer if you’re able. To what percentage is the science
+accurate is the first question. And then I think the rest of that
+explanation of that question goes on to say, to determine that the
+bullets were fired from the same firearm, are you 100 percent sure? A:
+My opinion, I am 100 percent sure that these bullets were fired from
+this firearm. There is a published error rate for firearms examiners.
+The false positive identification rate is less than two percent. I
+believe it’s about 1.5 to 1.9. That’s just a general number that’s out
+there.
+
+DR ADRIAN JONES
+
+Q: What is your current occupation? A: I am currently a Professor of
+Statistics.
+
+Q: How long have you been doing that? A: 30 years.
+
+Q: What are your qualifications with regards to the bullet matching
+algorithm? A: I have a Ph.D. in Statistics, and I have spent 7 years
+developing the bullet matching algorithm. I have spent 8 years
+collaborating with firearms examiners during the development and rollout
+of this algorithm. Court: This witness is an expert in the area of the
+bullet matching algorithm. They can testify to their opinions as well as
+facts.
+
+Q: How many times have you testified regarding this bullet matching
+algorithm? A: 17 times.
+
+Q: Could you describe how this bullet matching algorithm compares
+bullets? A: Yes. For certain types of guns, the barrel will have lands
+and grooves, known as rifling. This rifling spins the bullet in order to
+make its trajectory more stable. Due to the manufacturing process, this
+rifling can produce identifiable markings on the bullet, based on random
+differences between barrels. Because of these random imperfections, the
+striation marks left on bullets can be compared in order to determine if
+it is likely that they were fired from the same gun.
+
+The first step is to determine where the lands on the bullet are
+located. These lands will be the sunken area that contains the striation
+marks between the smoother grooves. 3D scans are then taken for each
+land, and the “ shoulders ” , or area transitioning from the land to the
+grove, are excluded from the analysis.
+
+Next, a stable area of the 3D scan containing the striations is
+selected, and a cross-section of this area is used to show the
+striations along with the topology of the region. A smoothing function
+is applied to remove some of the imaging noise from the 3D scan, leaving
+the striae intact. A second smooth is subtracted from the striations in
+order to remove the curvature of the region, leaving only the striae -
+this is what we call a signature.
+</td>
+<td style="text-align:left;">
+
+Q: How many times have you testified regarding this bullet matching
+algorithm? A: 17 times.
+
+Q: Could you describe how this bullet matching algorithm compares
+bullets? A: Yes. For certain types of guns, the barrel will have lands
+and grooves, known as rifling. This rifling spins the bullet in order to
+make its trajectory more stable. Due to the manufacturing process, this
+rifling can produce identifiable markings on the bullet, based on random
+differences between barrels. Because of these random imperfections, the
+striation marks left on bullets can be compared in order to determine if
+it is likely that they were fired from the same gun.
+
+The first step is to determine where the lands on the bullet are
+located. These lands will be the sunken area that contains the striation
+marks between the smoother grooves. 3D scans are then taken for each
+land, and the “ shoulders ” , or area transitioning from the land to the
+grove, are excluded from the analysis.
+
+Next, a stable area of the 3D scan containing the striations is
+selected, and a cross-section of this area is used to show the
+striations along with the topology of the region. A smoothing function
+is applied to remove some of the imaging noise from the 3D scan, leaving
+the striae intact. A second smooth is subtracted from the striations in
+order to remove the curvature of the region, leaving only the striae -
+this is what we call a signature.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+
+Q: The software uses modeling; is that correct? A: Yes, it does.
+
+Q: You, personally, don’t know the source code; is that correct? A:
+That’s correct.
+
+Q: And, in fact, you, personally, would not be able to tell us the
+specific math that goes into this program; is that fair to say? A: We
+did receive training on what the math is doing in general terms, but I
+am not a statistician, and would prefer to let them speak to that.
+
+—Questions Submitted By the Jury—
+
+The Court: Terry Smith, the jury has asked me to forward this question
+to you. Answer if you’re able. To what percentage is the science
+accurate is the first question. And then I think the rest of that
+explanation of that question goes on to say, to determine that the
+bullets were fired from the same firearm, are you 100 percent sure? A:
+My opinion, I am 100 percent sure that these bullets were fired from
+this firearm. There is a published error rate for firearms examiners.
+The false positive identification rate is less than two percent. I
+believe it’s about 1.5 to 1.9. That’s just a general number that’s out
+there.
+
+DR ADRIAN JONES
+
+Q: What is your current occupation? A: I am currently a Professor of
+Statistics.
+
+Q: How long have you been doing that? A: 30 years.
+
+Q: What are your qualifications with regards to the bullet matching
+algorithm? A: I have a Ph.D. in Statistics, and I have spent 7 years
+developing the bullet matching algorithm. I have spent 8 years
+collaborating with firearms examiners during the development and rollout
+of this algorithm. Court: This witness is an expert in the area of the
+bullet matching algorithm. They can testify to their opinions as well as
+facts.
+
+Q: How many times have you testified regarding this bullet matching
+algorithm? A: 17 times.
+
+Q: Could you describe how this bullet matching algorithm compares
+bullets? A: Yes. For certain types of guns, the barrel will have lands
+and grooves, known as rifling. This rifling spins the bullet in order to
+make its trajectory more stable. Due to the manufacturing process, this
+rifling can produce identifiable markings on the bullet, based on random
+differences between barrels. Because of these random imperfections, the
+striation marks left on bullets can be compared in order to determine if
+it is likely that they were fired from the same gun.
+
+The first step is to determine where the lands on the bullet are
+located. These lands will be the sunken area that contains the striation
+marks between the smoother grooves. 3D scans are then taken for each
+land, and the “ shoulders ” , or area transitioning from the land to the
+grove, are excluded from the analysis.
+
+Next, a stable area of the 3D scan containing the striations is
+selected, and a cross-section of this area is used to show the
+striations along with the topology of the region. A smoothing function
+is applied to remove some of the imaging noise from the 3D scan, leaving
+the striae intact. A second smooth is subtracted from the striations in
+order to remove the curvature of the region, leaving only the striae -
+this is what we call a signature.
+</td>
+<td style="text-align:right;">
+162
+</td>
+<td style="text-align:right;">
+9404
+</td>
+<td style="text-align:right;">
+8771.943
+</td>
+<td style="text-align:right;">
+687.9091
+</td>
+<td style="text-align:right;">
+2021.009
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+Q: How many times have you testified regarding this bullet matching
+algorithm?A: 17 times.Q: Could you describe how this bullet matching
+algorithm compares bullets?A: Yes. For certain types of guns, the barrel
+will have lands and grooves, known as rifling. This rifling spins the
+bullet in order to make its trajectory more stable. Due to the
+manufacturing process, this rifling can produce identifiable markings on
+the bullet, based on random differences between barrels. Because of
+these random imperfections, the striation marks left on bullets can be
+compared in order to determine if it is likely that they were fired from
+the same gun.The first step is to determine where the lands on the
+bullet are located. These lands will be the sunken area that contains
+the striation marks between the smoother grooves. 3D scans are then
+taken for each land, and the shoulders , or area transitioning from the
+land to the grove, are excluded from the analysis.Next, a stable area of
+the 3D scan containing the striations is selected, and a cross-section
+of this area is used to show the striations along with the topology of
+the region. A smoothing function is applied to remove some of the
+imaging noise from the 3D scan, leaving the striae intact. A second
+smooth is subtracted from the striations in order to remove the
+curvature of the region, leaving only the striae - this is what we call
+a signature.
+</td>
+<td style="text-align:left;">
+Q: How many times have you testified regarding this bullet matching
+algorithm?A: 17 times.Q: Could you describe how this bullet matching
+algorithm compares bullets?A: Yes. For certain types of guns, the barrel
+will have lands and grooves, known as rifling. This rifling spins the
+bullet in order to make its trajectory more stable. Due to the
+manufacturing process, this rifling can produce identifiable markings on
+the bullet, based on random differences between barrels. Because of
+these random imperfections, the striation marks left on bullets can be
+compared in order to determine if it is likely that they were fired from
+the same gun.The first step is to determine where the lands on the
+bullet are located. These lands will be the sunken area that contains
+the striation marks between the smoother grooves. 3D scans are then
+taken for each land, and the shoulders , or area transitioning from the
+land to the grove, are excluded from the analysis.Next, a stable area of
+the 3D scan containing the striations is selected, and a cross-section
+of this area is used to show the striations along with the topology of
+the region. A smoothing function is applied to remove some of the
+imaging noise from the 3D scan, leaving the striae intact. A second
+smooth is subtracted from the striations in order to remove the
+curvature of the region, leaving only the striae - this is what we call
+a signature.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+
+Q: The software uses modeling; is that correct? A: Yes, it does.
+
+Q: You, personally, don’t know the source code; is that correct? A:
+That’s correct.
+
+Q: And, in fact, you, personally, would not be able to tell us the
+specific math that goes into this program; is that fair to say? A: We
+did receive training on what the math is doing in general terms, but I
+am not a statistician, and would prefer to let them speak to that.
+
+—Questions Submitted By the Jury—
+
+The Court: Terry Smith, the jury has asked me to forward this question
+to you. Answer if you’re able. To what percentage is the science
+accurate is the first question. And then I think the rest of that
+explanation of that question goes on to say, to determine that the
+bullets were fired from the same firearm, are you 100 percent sure? A:
+My opinion, I am 100 percent sure that these bullets were fired from
+this firearm. There is a published error rate for firearms examiners.
+The false positive identification rate is less than two percent. I
+believe it’s about 1.5 to 1.9. That’s just a general number that’s out
+there.
+
+DR ADRIAN JONES
+
+Q: What is your current occupation? A: I am currently a Professor of
+Statistics.
+
+Q: How long have you been doing that? A: 30 years.
+
+Q: What are your qualifications with regards to the bullet matching
+algorithm? A: I have a Ph.D. in Statistics, and I have spent 7 years
+developing the bullet matching algorithm. I have spent 8 years
+collaborating with firearms examiners during the development and rollout
+of this algorithm. Court: This witness is an expert in the area of the
+bullet matching algorithm. They can testify to their opinions as well as
+facts.
+
+Q: How many times have you testified regarding this bullet matching
+algorithm? A: 17 times.
+
+Q: Could you describe how this bullet matching algorithm compares
+bullets? A: Yes. For certain types of guns, the barrel will have lands
+and grooves, known as rifling. This rifling spins the bullet in order to
+make its trajectory more stable. Due to the manufacturing process, this
+rifling can produce identifiable markings on the bullet, based on random
+differences between barrels. Because of these random imperfections, the
+striation marks left on bullets can be compared in order to determine if
+it is likely that they were fired from the same gun.
+
+The first step is to determine where the lands on the bullet are
+located. These lands will be the sunken area that contains the striation
+marks between the smoother grooves. 3D scans are then taken for each
+land, and the “ shoulders ” , or area transitioning from the land to the
+grove, are excluded from the analysis.
+
+Next, a stable area of the 3D scan containing the striations is
+selected, and a cross-section of this area is used to show the
+striations along with the topology of the region. A smoothing function
+is applied to remove some of the imaging noise from the 3D scan, leaving
+the striae intact. A second smooth is subtracted from the striations in
+order to remove the curvature of the region, leaving only the striae -
+this is what we call a signature. A: The signature for the two bullets
+being compared are aligned such that the best fit between the two
+signatures is achieved. The striation marks between the two signatures
+are then compared by evaluating how many of the high points and low
+points correspond. The algorithm can calculate the number of
+consecutively matching striations (CMS), or consecutively matching high
+points and low points - these are features used directly by some
+examiners to characterize the strength of a match. It also calculates
+the cross correlation between the two signatures, which is a numerical
+measure of the similarity between the two lands ranging between -1 and
+1.
+
+These traits are combined using what is known as a random forest. Each
+forest is composed of decision trees, which use a subset of the observed
+values in order to make a decision about whether or not the bullets
+constitute a match. The other observations are held out in order to
+determine an error rate. When the random forest makes a prediction, each
+decision tree “ votes ” , producing a numerical value between 0 and 1
+corresponding to the proportion of trees which evaluate the features as
+being sufficiently similar to have come from the same source.
+
+Q: Have you tested this algorithm? A: Yes. This algorithm was tested and
+validated on a number of different test sets of bullet scans. It was
+found that, as long as there are sufficient marks on the bullet, the
+algorithm could successfully distinguish between bullets fired by the
+same gun and those fired from different guns. Examiners’ visual
+comparisons are also limited by the presence or absence of
+individualizing marks. Two test sets were using consecutively rifled
+barrels, which should be the most difficult to assess, and it was shown
+that the algorithm could distinguish between the bullets fired from two
+separate guns with complete accuracy.
+</td>
+<td style="text-align:left;">
+
+A: The signature for the two bullets being compared are aligned such
+that the best fit between the two signatures is achieved. The striation
+marks between the two signatures are then compared by evaluating how
+many of the high points and low points correspond. The algorithm can
+calculate the number of consecutively matching striations (CMS), or
+consecutively matching high points and low points - these are features
+used directly by some examiners to characterize the strength of a match.
+It also calculates the cross correlation between the two signatures,
+which is a numerical measure of the similarity between the two lands
+ranging between -1 and 1.
+
+These traits are combined using what is known as a random forest. Each
+forest is composed of decision trees, which use a subset of the observed
+values in order to make a decision about whether or not the bullets
+constitute a match. The other observations are held out in order to
+determine an error rate. When the random forest makes a prediction, each
+decision tree “ votes ” , producing a numerical value between 0 and 1
+corresponding to the proportion of trees which evaluate the features as
+being sufficiently similar to have come from the same source.
+
+Q: Have you tested this algorithm? A: Yes. This algorithm was tested and
+validated on a number of different test sets of bullet scans. It was
+found that, as long as there are sufficient marks on the bullet, the
+algorithm could successfully distinguish between bullets fired by the
+same gun and those fired from different guns. Examiners’ visual
+comparisons are also limited by the presence or absence of
+individualizing marks. Two test sets were using consecutively rifled
+barrels, which should be the most difficult to assess, and it was shown
+that the algorithm could distinguish between the bullets fired from two
+separate guns with complete accuracy.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony.
+
+Mr. Cole has pleaded not guilty to the charge.Police received a 911 call
+from a convenience store clerk stating that a man had entered the store,
+pulled out a firearm, fired a shot into the ceiling, and then demanded
+money. The man ended up leaving the store without receiving any money
+and no one was hurt by the gunshot.
+
+The store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask.
+
+As the cashier was pulling out the money to hand to him, she pressed a
+hidden button that activated an alarm and called the police. Startled by
+the alarm bells, the robber rushed out of the store.
+
+Next, the detective testified that he arrived at the convenience store
+and interviewed the clerk. The detective recovered the 9mm bullet from
+the ceiling of the store, which was collected for forensic analysis.
+
+Two days later, a police officer pulled over Richard Cole for speeding.
+During a search of the Defendant’s vehicle, the detective located a 9mm
+handgun, which was legally licensed to the Defendant. Because this gun
+was the same caliber as the one used in the convenience store shooting,
+it was confiscated for testing. Richard Cole was subsequently arrested
+and charged with willfully discharging a firearm in a place of business.
+
+terry smith: Q: What training is required to become a firearms examiner
+with the local police department? A: I received my bachelor’s degree in
+forensic science and in 2015 I transferred to the crime lab from the
+crime scene unit. I underwent a two-year training program, which was
+supervised by experienced firearms examiners; I’ve toured manufacturing
+facilities and saw how firearms and ammunition were produced; and I’ve
+attended several national and regional meetings of firearms examiners.
+A: Yes. I received training in the use of a bullet matching algorithm.
+This is an algorithm that evaluates the characteristics of two fired
+bullets, in order to produce a score for the similarity of the bullets,
+where more similar bullets are more likely to have been fired from the
+same gun. I attended a workshop on the algorithm on 1/11/2020, held by
+CSAFE - Center for Statistics and Applications in Forensic Evidence. The
+training taught me to use the algorithm alongside my personal judgement.
+I found that my conclusion was reflected in the similarity score
+produced by the algorithm in all 21 cases. Q: How long have the state
+police been using the bullet matching algorithm? A: They have been using
+it since January of 2020.
+
+Q: Have you testified in court previously using the bullet matching
+algorithm? A: Yes, I have, approximately 10 times.
+
+Q: As a firearms examiner, have you testified about your conclusions,
+given the results of your testing? A: Yes, I have. A: No. When firing a
+firearm there is a dynamic process because it is a contained explosion.
+When the firing pin hits the primer, which is basically the initiator,
+what gets it going, it will explode, burn the gun powder inside the
+casing, and the bullet will travel down the barrel, picking up the
+microscopic imperfections of the barrel, and the cartridge case will
+slam rearward against the support mechanism. During that dynamic
+process, each time it happens, a bullet will be marked slightly
+differently from one to the next.
+
+Prosecution: Your Honor, at this time I would ask that Terry Smith be
+qualified as an expert in the field of firearms identification subject
+to cross examination. Court: Any cross on their credentials? Defense:
+No, Your Honor. Court: This witness is an expert in the area of firearms
+identification. They can testify to their opinions as well as facts. Go
+ahead. A: Yes. In the interior of a barrel there are raised portions
+called lands and depressed areas called grooves. When a bullet passes
+down the barrel, a bullet will spin and that gives it stability and
+accuracy over a distance. Those raised areas are designed by the
+manufacturer. They’re cut into the barrel. And each particular file has
+a different combination of lands and grooves. But essentially what those
+lands do is grip a bullet and spin it, and as that bullet passes down
+the barrel, it scratches the random imperfections of that barrel into
+the bullet. A: I place them under the comparison microscope, and I roll
+the bullet around until I can see the agreement in a particular area:
+unique surface contour that has sufficient agreement. At that point,
+when I’ve seen that, I start to rotate the bullets around and I look at
+all the different lands and grooves, impressions, for that unique
+detail. When I can see those, that agreement on multiple areas of the
+bullet, I identify the bullet as having sufficient agreement. A: The
+algorithm uses 3D measurements to make a comparison between the surface
+contours of each of the lands on each bullet. These comparisons result
+in a match score between 0 and 1, where 1 indicates a clear match, and 0
+indicates that there is not a match. The bullet is aligned based on the
+maximum agreement between the lands, and the average match score for the
+lands is computed. This average score gives an overall match score for
+the entire bullet.
+
+Q: What was the match score between the two test-fired bullets? A: The
+match score was 0.976.
+
+Q: What was the match score between the better-marked test fire bullet
+and the fired evidence? A: The match score was 0.989.
+
+Q: What does this match score indicate about the bullets? A: The match
+score indicates that there is substantial similarity between the two
+bullets, which suggests that they were most likely fired from the same
+barrel.
+
+Q: Is it the local police department’s protocol to have somebody else
+who’s a firearms tool mark examiner in your lab review that report,
+review your work, and determine if it’s correct? A: Yes.
+
+Q: That’s what we call peer review? A: Peer review, yes.
+
+Q: Is there something fixed about the amount of what has to be found to
+constitute sufficient agreement? A: No, there is not a fixed amount or a
+numerical value for my visual comparison. For the algorithm, however, a
+score above 0.8 is a general indicator of sufficient agreement.
+
+Q: The software uses modeling; is that correct? A: Yes, it does.
+
+Q: You, personally, don’t know the source code; is that correct? A:
+That’s correct.
+
+Q: And, in fact, you, personally, would not be able to tell us the
+specific math that goes into this program; is that fair to say? A: We
+did receive training on what the math is doing in general terms, but I
+am not a statistician, and would prefer to let them speak to that.
+
+—Questions Submitted By the Jury—
+
+The Court: Terry Smith, the jury has asked me to forward this question
+to you. Answer if you’re able. To what percentage is the science
+accurate is the first question. And then I think the rest of that
+explanation of that question goes on to say, to determine that the
+bullets were fired from the same firearm, are you 100 percent sure? A:
+My opinion, I am 100 percent sure that these bullets were fired from
+this firearm. There is a published error rate for firearms examiners.
+The false positive identification rate is less than two percent. I
+believe it’s about 1.5 to 1.9. That’s just a general number that’s out
+there.
+
+DR ADRIAN JONES
+
+Q: What is your current occupation? A: I am currently a Professor of
+Statistics.
+
+Q: How long have you been doing that? A: 30 years.
+
+Q: What are your qualifications with regards to the bullet matching
+algorithm? A: I have a Ph.D. in Statistics, and I have spent 7 years
+developing the bullet matching algorithm. I have spent 8 years
+collaborating with firearms examiners during the development and rollout
+of this algorithm. Court: This witness is an expert in the area of the
+bullet matching algorithm. They can testify to their opinions as well as
+facts.
+
+Q: How many times have you testified regarding this bullet matching
+algorithm? A: 17 times.
+
+Q: Could you describe how this bullet matching algorithm compares
+bullets? A: Yes. For certain types of guns, the barrel will have lands
+and grooves, known as rifling. This rifling spins the bullet in order to
+make its trajectory more stable. Due to the manufacturing process, this
+rifling can produce identifiable markings on the bullet, based on random
+differences between barrels. Because of these random imperfections, the
+striation marks left on bullets can be compared in order to determine if
+it is likely that they were fired from the same gun.
+
+The first step is to determine where the lands on the bullet are
+located. These lands will be the sunken area that contains the striation
+marks between the smoother grooves. 3D scans are then taken for each
+land, and the “ shoulders ” , or area transitioning from the land to the
+grove, are excluded from the analysis.
+
+Next, a stable area of the 3D scan containing the striations is
+selected, and a cross-section of this area is used to show the
+striations along with the topology of the region. A smoothing function
+is applied to remove some of the imaging noise from the 3D scan, leaving
+the striae intact. A second smooth is subtracted from the striations in
+order to remove the curvature of the region, leaving only the striae -
+this is what we call a signature. A: The signature for the two bullets
+being compared are aligned such that the best fit between the two
+signatures is achieved. The striation marks between the two signatures
+are then compared by evaluating how many of the high points and low
+points correspond. The algorithm can calculate the number of
+consecutively matching striations (CMS), or consecutively matching high
+points and low points - these are features used directly by some
+examiners to characterize the strength of a match. It also calculates
+the cross correlation between the two signatures, which is a numerical
+measure of the similarity between the two lands ranging between -1 and
+1.
+
+These traits are combined using what is known as a random forest. Each
+forest is composed of decision trees, which use a subset of the observed
+values in order to make a decision about whether or not the bullets
+constitute a match. The other observations are held out in order to
+determine an error rate. When the random forest makes a prediction, each
+decision tree “ votes ” , producing a numerical value between 0 and 1
+corresponding to the proportion of trees which evaluate the features as
+being sufficiently similar to have come from the same source.
+
+Q: Have you tested this algorithm? A: Yes. This algorithm was tested and
+validated on a number of different test sets of bullet scans. It was
+found that, as long as there are sufficient marks on the bullet, the
+algorithm could successfully distinguish between bullets fired by the
+same gun and those fired from different guns. Examiners’ visual
+comparisons are also limited by the presence or absence of
+individualizing marks. Two test sets were using consecutively rifled
+barrels, which should be the most difficult to assess, and it was shown
+that the algorithm could distinguish between the bullets fired from two
+separate guns with complete accuracy.
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+11372
+</td>
+<td style="text-align:right;">
+23984.169
+</td>
+<td style="text-align:right;">
+1730.0455
+</td>
+<td style="text-align:right;">
+5563.531
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+A: The signature for the two bullets being compared are aligned such
+that the best fit between the two signatures is achieved. The striation
+marks between the two signatures are then compared by evaluating how
+many of the high points and low points correspond. The algorithm can
+calculate the number of consecutively matching striations (CMS), or
+consecutively matching high points and low points - these are features
+used directly by some examiners to characterize the strength of a match.
+It also calculates the cross correlation between the two signatures,
+which is a numerical measure of the similarity between the two lands
+ranging between -1 and 1.These traits are combined using what is known
+as a random forest. Each forest is composed of decision trees, which use
+a subset of the observed values in order to make a decision about
+whether or not the bullets constitute a match. The other observations
+are held out in order to determine an error rate. When the random forest
+makes a prediction, each decision tree votes , producing a numerical
+value between 0 and 1 corresponding to the proportion of trees which
+evaluate the features as being sufficiently similar to have come from
+the same source.Q: Have you tested this algorithm?A: Yes. This algorithm
+was tested and validated on a number of different test sets of bullet
+scans. It was found that, as long as there are sufficient marks on the
+bullet, the algorithm could successfully distinguish between bullets
+fired by the same gun and those fired from different guns. Examiners’
+visual comparisons are also limited by the presence or absence of
+individualizing marks. Two test sets were using consecutively rifled
+barrels, which should be the most difficult to assess, and it was shown
+that the algorithm could distinguish between the bullets fired from two
+separate guns with complete accuracy.
+</td>
+<td style="text-align:left;">
+A: The signature for the two bullets being compared are aligned such
+that the best fit between the two signatures is achieved. The striation
+marks between the two signatures are then compared by evaluating how
+many of the high points and low points correspond. The algorithm can
+calculate the number of consecutively matching striations (CMS), or
+consecutively matching high points and low points - these are features
+used directly by some examiners to characterize the strength of a match.
+It also calculates the cross correlation between the two signatures,
+which is a numerical measure of the similarity between the two lands
+ranging between -1 and 1.These traits are combined using what is known
+as a random forest. Each forest is composed of decision trees, which use
+a subset of the observed values in order to make a decision about
+whether or not the bullets constitute a match. The other observations
+are held out in order to determine an error rate. When the random forest
+makes a prediction, each decision tree votes , producing a numerical
+value between 0 and 1 corresponding to the proportion of trees which
+evaluate the features as being sufficiently similar to have come from
+the same source.Q: Have you tested this algorithm?A: Yes. This algorithm
+was tested and validated on a number of different test sets of bullet
+scans. It was found that, as long as there are sufficient marks on the
+bullet, the algorithm could successfully distinguish between bullets
+fired by the same gun and those fired from different guns. Examiners’
+visual comparisons are also limited by the presence or absence of
+individualizing marks. Two test sets were using consecutively rifled
+barrels, which should be the most difficult to assess, and it was shown
+that the algorithm could distinguish between the bullets fired from two
+separate guns with complete accuracy.
+</td>
+</tr>
+</tbody>
+</table>
+
+The above notes show the difficult cases for the First N Character
+method (indicated as “page_notes”) and the Longest Common Substring
+(“lcs_notes”). The hybrid column combines the two methods for the
+complete notes.

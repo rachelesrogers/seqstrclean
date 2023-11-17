@@ -3,3 +3,4 @@
 export(extremeid)
 export(firstnchar)
 export(lcsclean)
+export(lcsclean_hybrid)

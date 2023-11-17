@@ -146,8 +146,22 @@ Note that the previous page of notes is also necessary for comparison in the Lon
 ```{r rerun_id}
 
 library(dplyr)
-extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(extreme_value==TRUE | edit_distance > 15, TRUE, FALSE))
+extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
 kable(head(extreme_dataset))
 
 ```
+Observations where "apply_lcs" is true indicate those difficult cases.
+They can then be run through the hybrid application of lcs to clean the remaining notes.
+
+
+```{r lcs_hybrid}
+
+hybrid_dataset <- lcsclean_hybrid(dataset=extreme_dataset, notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
+
+kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,]))
+
+```
+
+The above notes show the difficult cases for the First N Character method (indicated as "page_notes") and the Longest Common Substring ("lcs_notes"). 
+The hybrid column combines the two methods for the complete notes.

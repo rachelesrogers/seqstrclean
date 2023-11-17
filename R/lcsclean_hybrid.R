@@ -1,4 +1,5 @@
 
+
 #' Longest Common Substring Note Cleaning for Hybrid Method
 #'
 #' @param dataset the dataset containing the notes
@@ -12,7 +13,6 @@
 #' @export
 #'
 #' @examples
-
 
 lcsclean_hybrid <- function(dataset, notes, propor, identifier, pageid, toclean){
   #Currently case-sensitive.
@@ -66,7 +66,7 @@ lcsclean_hybrid <- function(dataset, notes, propor, identifier, pageid, toclean)
 
           while (nchar(longest_sub) > longest_val){
             reduced_comments[pg_count,]$lcs_notes <- gsub(longest_sub,"",
-                                                    reduced_comments[pg_count,]$lcs_notes,fixed=TRUE)
+                                                          reduced_comments[pg_count,]$lcs_notes,fixed=TRUE)
             longest_sub <- PTXQC::LCS(previous_notes, reduced_comments[pg_count,]$lcs_notes)
           }
 
