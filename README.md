@@ -735,7 +735,7 @@ library(dplyr)
 #>     intersect, setdiff, setequal, union
 extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
-kable(head(extreme_dataset))
+kable(head(extreme_dataset %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs"))))
 ```
 
 <table>
@@ -751,31 +751,7 @@ page_count
 notes
 </th>
 <th style="text-align:left;">
-corrected_notes
-</th>
-<th style="text-align:left;">
-algorithm
-</th>
-<th style="text-align:left;">
 page_notes
-</th>
-<th style="text-align:right;">
-edit_distance
-</th>
-<th style="text-align:right;">
-note_length
-</th>
-<th style="text-align:right;">
-outlier
-</th>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-sd
-</th>
-<th style="text-align:left;">
-extreme_value
 </th>
 <th style="text-align:left;">
 apply_lcs
@@ -797,30 +773,6 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.00000
-</td>
-<td style="text-align:right;">
-0.000000
-</td>
-<td style="text-align:right;">
-0.00000
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
 FALSE
 </td>
 </tr>
@@ -836,30 +788,6 @@ discharge firearm in business- felony, not guilty
 </td>
 <td style="text-align:left;">
 discharge firearm in business- felony, not guilty
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-discharge firearm in business- felony, not guilty
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-49
-</td>
-<td style="text-align:right;">
-515.21182
-</td>
-<td style="text-align:right;">
-101.681818
-</td>
-<td style="text-align:right;">
-103.38250
-</td>
-<td style="text-align:left;">
-FALSE
 </td>
 <td style="text-align:left;">
 FALSE
@@ -882,31 +810,6 @@ testing.
 <td style="text-align:left;">
 ski mask. no money, no injuries. 9mm, arrested after confiscated and
 testing.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-ski mask. no money, no injuries. 9mm, arrested after confiscated and
-testing.
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-82
-</td>
-<td style="text-align:right;">
-2445.47040
-</td>
-<td style="text-align:right;">
-408.318182
-</td>
-<td style="text-align:right;">
-509.28805
-</td>
-<td style="text-align:left;">
-FALSE
 </td>
 <td style="text-align:left;">
 FALSE
@@ -932,30 +835,6 @@ terry smith-
 terry smith-
 </td>
 <td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-terry smith-
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-49.98656
-</td>
-<td style="text-align:right;">
-3.181818
-</td>
-<td style="text-align:right;">
-11.70119
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
 FALSE
 </td>
 </tr>
@@ -976,31 +855,7 @@ testing.
 terry smith/ cop - firearm exam.
 </td>
 <td style="text-align:left;">
-/ cop - firearm exam.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
 cop - firearm exam.
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-1844.37525
-</td>
-<td style="text-align:right;">
-231.909091
-</td>
-<td style="text-align:right;">
-403.11654
-</td>
-<td style="text-align:left;">
-FALSE
 </td>
 <td style="text-align:left;">
 FALSE
@@ -1029,31 +884,6 @@ ratio of similarity?
 with personal judgement. ? hunch and ratio of similarity?
 </td>
 <td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-? bullet match algorithm- score for similarity - more likely. combine
-with personal judgement. ? hunch and ratio of similarity?
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-132
-</td>
-<td style="text-align:right;">
-3729.87655
-</td>
-<td style="text-align:right;">
-383.545455
-</td>
-<td style="text-align:right;">
-836.58277
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
 FALSE
 </td>
 </tr>
@@ -1068,7 +898,7 @@ remaining notes.
 
 hybrid_dataset <- lcsclean_hybrid(dataset=extreme_dataset, notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
 
-kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,]))
+kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes"))))
 ```
 
 <table>
@@ -1084,40 +914,10 @@ page_count
 notes
 </th>
 <th style="text-align:left;">
-corrected_notes
-</th>
-<th style="text-align:left;">
-algorithm
-</th>
-<th style="text-align:left;">
 page_notes
-</th>
-<th style="text-align:right;">
-edit_distance
-</th>
-<th style="text-align:right;">
-note_length
-</th>
-<th style="text-align:right;">
-outlier
-</th>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-sd
-</th>
-<th style="text-align:left;">
-extreme_value
-</th>
-<th style="text-align:left;">
-apply_lcs
 </th>
 <th style="text-align:left;">
 lcs_notes
-</th>
-<th style="text-align:left;">
-hybrid_notes
 </th>
 </tr>
 </thead>
@@ -1162,14 +962,6 @@ comparison. For the algorithm, however, a score below 0.3 is a general
 indicator of sufficient disagreement.
 </td>
 <td style="text-align:left;">
-there is not a fixed amount or a numerical value for my visual
-comparison. For the algorithm, however, a score below 0.3 is a general
-indicator of sufficient disagreement.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
 
 discharge firearm in business- felony, not guilty
 
@@ -1197,32 +989,6 @@ disagreement in multiple areas of the bullet
 Ai- where 1 indicates a clear match, and 0 indicates that there is not a
 match. match score was 0.034
 
-there is not a fixed amount or a numerical value for my visual
-comparison. For the algorithm, however, a score below 0.3 is a general
-indicator of sufficient disagreement.
-</td>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-1250
-</td>
-<td style="text-align:right;">
-6018.644
-</td>
-<td style="text-align:right;">
-517.2273
-</td>
-<td style="text-align:right;">
-1375.354
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
 there is not a fixed amount or a numerical value for my visual
 comparison. For the algorithm, however, a score below 0.3 is a general
 indicator of sufficient disagreement.
@@ -1277,14 +1043,6 @@ opinion, I am 100 percent sure that these bullets were fired from
 different firearms.
 </td>
 <td style="text-align:left;">
-The false negative identification rate is less than three percent. My
-opinion, I am 100 percent sure that these bullets were fired from
-different firearms.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
 
 discharge firearm in business- felony, not guilty
 
@@ -1316,32 +1074,6 @@ there is not a fixed amount or a numerical value for my visual
 comparison. For the algorithm, however, a score below 0.3 is a general
 indicator of sufficient disagreement.
 
-The false negative identification rate is less than three percent. My
-opinion, I am 100 percent sure that these bullets were fired from
-different firearms.
-</td>
-<td style="text-align:right;">
-32
-</td>
-<td style="text-align:right;">
-1430
-</td>
-<td style="text-align:right;">
-11617.710
-</td>
-<td style="text-align:right;">
-892.9091
-</td>
-<td style="text-align:right;">
-2681.200
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
 The false negative identification rate is less than three percent. My
 opinion, I am 100 percent sure that these bullets were fired from
 different firearms.
@@ -1470,26 +1202,6 @@ Q: That’s what we call peer review? A: Peer review, yes.
 </td>
 <td style="text-align:left;">
 
-A: No. When firing a firearm there is a dynamic process because it is a
-contained explosion. When the firing pin hits the primer, which is
-basically the initiator, what gets it going, it will explode, burn the
-gun powder inside the casing, and the bullet will travel down the
-barrel, picking up the microscopic imperfections of the barrel, and the
-cartridge case will slam rearward against the support mechanism. During
-that dynamic process, each time it happens, a bullet will be marked
-slightly differently from one to the next.
-
-Q: Is it the local police department’s protocol to have somebody else
-who’s a firearms tool mark examiner in your lab review that report,
-review your work, and determine if it’s correct? A: Yes.
-
-Q: That’s what we call peer review? A: Peer review, yes.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-
 In this case, the defendant - Richard Cole - has been charged with
 willfully discharging a firearm in a place of business. This crime is a
 felony.
@@ -1596,41 +1308,6 @@ who’s a firearms tool mark examiner in your lab review that report,
 review your work, and determine if it’s correct? A: Yes.
 
 Q: That’s what we call peer review? A: Peer review, yes.
-</td>
-<td style="text-align:right;">
-1062
-</td>
-<td style="text-align:right;">
-6035
-</td>
-<td style="text-align:right;">
-16832.658
-</td>
-<td style="text-align:right;">
-1243.9545
-</td>
-<td style="text-align:right;">
-3897.176
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-A: No. When firing a firearm there is a dynamic process because it is a
-contained explosion. When the firing pin hits the primer, which is
-basically the initiator, what gets it going, it will explode, burn the
-gun powder inside the casing, and the bullet will travel down the
-barrel, picking up the microscopic imperfections of the barrel, and the
-cartridge case will slam rearward against the support mechanism. During
-that dynamic process, each time it happens, a bullet will be marked
-slightly differently from one to the nextQ: Is it the local police
-department’s protocol to have somebody else who’s a firearms tool mark
-examiner in your lab review that report, review your work, and determine
-if it’s correct?A: Yes.Q: That’s what we call peer review?A: Peer
-review, yes.
 </td>
 <td style="text-align:left;">
 A: No. When firing a firearm there is a dynamic process because it is a
@@ -1769,15 +1446,6 @@ numerical value for my visual comparison. For the algorithm, however, a
 score above 0.8 is a general indicator of sufficient agreement.
 </td>
 <td style="text-align:left;">
-Q: Is there something fixed about the amount of what has to be found to
-constitute sufficient agreement? A: No, there is not a fixed amount or a
-numerical value for my visual comparison. For the algorithm, however, a
-score above 0.8 is a general indicator of sufficient agreement.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
 
 In this case, the defendant - Richard Cole - has been charged with
 willfully discharging a firearm in a place of business. This crime is a
@@ -1888,33 +1556,6 @@ Q: That’s what we call peer review? A: Peer review, yes.
 
 Q: Is there something fixed about the amount of what has to be found to
 constitute sufficient agreement? A: No, there is not a fixed amount or a
-numerical value for my visual comparison. For the algorithm, however, a
-score above 0.8 is a general indicator of sufficient agreement.
-</td>
-<td style="text-align:right;">
-94
-</td>
-<td style="text-align:right;">
-6372
-</td>
-<td style="text-align:right;">
-6018.644
-</td>
-<td style="text-align:right;">
-517.2273
-</td>
-<td style="text-align:right;">
-1375.354
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-Q: Is there something fixed about the amount of what has to be found to
-constitute sufficient agreement?A: No, there is not a fixed amount or a
 numerical value for my visual comparison. For the algorithm, however, a
 score above 0.8 is a general indicator of sufficient agreement.
 </td>
@@ -2112,37 +1753,6 @@ this is what we call a signature.
 </td>
 <td style="text-align:left;">
 
-Q: How many times have you testified regarding this bullet matching
-algorithm? A: 17 times.
-
-Q: Could you describe how this bullet matching algorithm compares
-bullets? A: Yes. For certain types of guns, the barrel will have lands
-and grooves, known as rifling. This rifling spins the bullet in order to
-make its trajectory more stable. Due to the manufacturing process, this
-rifling can produce identifiable markings on the bullet, based on random
-differences between barrels. Because of these random imperfections, the
-striation marks left on bullets can be compared in order to determine if
-it is likely that they were fired from the same gun.
-
-The first step is to determine where the lands on the bullet are
-located. These lands will be the sunken area that contains the striation
-marks between the smoother grooves. 3D scans are then taken for each
-land, and the “ shoulders ” , or area transitioning from the land to the
-grove, are excluded from the analysis.
-
-Next, a stable area of the 3D scan containing the striations is
-selected, and a cross-section of this area is used to show the
-striations along with the topology of the region. A smoothing function
-is applied to remove some of the imaging noise from the 3D scan, leaving
-the striae intact. A second smooth is subtracted from the striations in
-order to remove the curvature of the region, leaving only the striae -
-this is what we call a signature.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-
 In this case, the defendant - Richard Cole - has been charged with
 willfully discharging a firearm in a place of business. This crime is a
 felony.
@@ -2318,50 +1928,6 @@ is applied to remove some of the imaging noise from the 3D scan, leaving
 the striae intact. A second smooth is subtracted from the striations in
 order to remove the curvature of the region, leaving only the striae -
 this is what we call a signature.
-</td>
-<td style="text-align:right;">
-162
-</td>
-<td style="text-align:right;">
-9404
-</td>
-<td style="text-align:right;">
-8771.943
-</td>
-<td style="text-align:right;">
-687.9091
-</td>
-<td style="text-align:right;">
-2021.009
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-Q: How many times have you testified regarding this bullet matching
-algorithm?A: 17 times.Q: Could you describe how this bullet matching
-algorithm compares bullets?A: Yes. For certain types of guns, the barrel
-will have lands and grooves, known as rifling. This rifling spins the
-bullet in order to make its trajectory more stable. Due to the
-manufacturing process, this rifling can produce identifiable markings on
-the bullet, based on random differences between barrels. Because of
-these random imperfections, the striation marks left on bullets can be
-compared in order to determine if it is likely that they were fired from
-the same gun.The first step is to determine where the lands on the
-bullet are located. These lands will be the sunken area that contains
-the striation marks between the smoother grooves. 3D scans are then
-taken for each land, and the shoulders , or area transitioning from the
-land to the grove, are excluded from the analysis.Next, a stable area of
-the 3D scan containing the striations is selected, and a cross-section
-of this area is used to show the striations along with the topology of
-the region. A smoothing function is applied to remove some of the
-imaging noise from the 3D scan, leaving the striae intact. A second
-smooth is subtracted from the striations in order to remove the
-curvature of the region, leaving only the striae - this is what we call
-a signature.
 </td>
 <td style="text-align:left;">
 Q: How many times have you testified regarding this bullet matching
@@ -2604,42 +2170,6 @@ separate guns with complete accuracy.
 </td>
 <td style="text-align:left;">
 
-A: The signature for the two bullets being compared are aligned such
-that the best fit between the two signatures is achieved. The striation
-marks between the two signatures are then compared by evaluating how
-many of the high points and low points correspond. The algorithm can
-calculate the number of consecutively matching striations (CMS), or
-consecutively matching high points and low points - these are features
-used directly by some examiners to characterize the strength of a match.
-It also calculates the cross correlation between the two signatures,
-which is a numerical measure of the similarity between the two lands
-ranging between -1 and 1.
-
-These traits are combined using what is known as a random forest. Each
-forest is composed of decision trees, which use a subset of the observed
-values in order to make a decision about whether or not the bullets
-constitute a match. The other observations are held out in order to
-determine an error rate. When the random forest makes a prediction, each
-decision tree “ votes ” , producing a numerical value between 0 and 1
-corresponding to the proportion of trees which evaluate the features as
-being sufficiently similar to have come from the same source.
-
-Q: Have you tested this algorithm? A: Yes. This algorithm was tested and
-validated on a number of different test sets of bullet scans. It was
-found that, as long as there are sufficient marks on the bullet, the
-algorithm could successfully distinguish between bullets fired by the
-same gun and those fired from different guns. Examiners’ visual
-comparisons are also limited by the presence or absence of
-individualizing marks. Two test sets were using consecutively rifled
-barrels, which should be the most difficult to assess, and it was shown
-that the algorithm could distinguish between the bullets fired from two
-separate guns with complete accuracy.
-</td>
-<td style="text-align:left;">
-Yes
-</td>
-<td style="text-align:left;">
-
 In this case, the defendant - Richard Cole - has been charged with
 willfully discharging a firearm in a place of business. This crime is a
 felony.
@@ -2841,56 +2371,6 @@ found that, as long as there are sufficient marks on the bullet, the
 algorithm could successfully distinguish between bullets fired by the
 same gun and those fired from different guns. Examiners’ visual
 comparisons are also limited by the presence or absence of
-individualizing marks. Two test sets were using consecutively rifled
-barrels, which should be the most difficult to assess, and it was shown
-that the algorithm could distinguish between the bullets fired from two
-separate guns with complete accuracy.
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-11372
-</td>
-<td style="text-align:right;">
-23984.169
-</td>
-<td style="text-align:right;">
-1730.0455
-</td>
-<td style="text-align:right;">
-5563.531
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-A: The signature for the two bullets being compared are aligned such
-that the best fit between the two signatures is achieved. The striation
-marks between the two signatures are then compared by evaluating how
-many of the high points and low points correspond. The algorithm can
-calculate the number of consecutively matching striations (CMS), or
-consecutively matching high points and low points - these are features
-used directly by some examiners to characterize the strength of a match.
-It also calculates the cross correlation between the two signatures,
-which is a numerical measure of the similarity between the two lands
-ranging between -1 and 1.These traits are combined using what is known
-as a random forest. Each forest is composed of decision trees, which use
-a subset of the observed values in order to make a decision about
-whether or not the bullets constitute a match. The other observations
-are held out in order to determine an error rate. When the random forest
-makes a prediction, each decision tree votes , producing a numerical
-value between 0 and 1 corresponding to the proportion of trees which
-evaluate the features as being sufficiently similar to have come from
-the same source.Q: Have you tested this algorithm?A: Yes. This algorithm
-was tested and validated on a number of different test sets of bullet
-scans. It was found that, as long as there are sufficient marks on the
-bullet, the algorithm could successfully distinguish between bullets
-fired by the same gun and those fired from different guns. Examiners’
-visual comparisons are also limited by the presence or absence of
 individualizing marks. Two test sets were using consecutively rifled
 barrels, which should be the most difficult to assess, and it was shown
 that the algorithm could distinguish between the bullets fired from two
