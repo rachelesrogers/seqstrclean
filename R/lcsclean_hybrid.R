@@ -6,11 +6,7 @@
 #' To be used after applying [firstnchar()] and [extremeid()]. Dataset should have
 #' a "page_notes" column corresponding to the cleaned notes outcome from [firstnchar()].
 #'
-#' @param dataset the dataset containing the notes
-#' @param notes the column name for the notes
-#' @param propor minimum necessary of matching proportion of previous notes for removal
-#' @param identifier column name for uniquely identifying identification
-#' @param pageid column name for page number
+#' @inheritParams lcsclean
 #' @param toclean column name for identifying column of notes to clean (TRUE/FALSE)
 #'
 #' @return a data frame
