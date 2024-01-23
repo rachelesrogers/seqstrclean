@@ -2,17 +2,28 @@
 
 #' Longest Common Substring Note Cleaning for Hybrid Method
 #'
+#' This function is used to apply the longest common substring method to extreme values in a dataset.
+#' To be used after applying [firstnchar()] and [extremeid()]. Dataset should have
+#' a "page_notes" column corresponding to the cleaned notes outcome from [firstnchar()].
+#'
 #' @param dataset the dataset containing the notes
 #' @param notes the column name for the notes
 #' @param propor minimum necessary of matching proportion of previous notes for removal
 #' @param identifier column name for uniquely identifying identification
 #' @param pageid column name for page number
-#' @param toclean column name for notes to clean
+#' @param toclean column name for identifying column of notes to clean (TRUE/FALSE)
 #'
 #' @return a data frame
 #' @export
 #'
 #' @examples
+#' test_dataset <- data.frame(ID=c("1","1","2","2","1", "3","3"),
+#' Notes=c("The","The cat","The","The dog","The cat ran",
+#' "the chicken was chased", "The goat chased the chicken"),
+#' Page=c(1,2,1,2,3,1,2), cleaning = c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE),
+#' page_notes = c("The","The cat","The","The dog","The cat ran",
+#' "the chicken was chased", "The goat chased the chicken"))
+#' lcsclean_hybrid(test_dataset,"Notes",0.5,"ID","Page", "cleaning")
 
 lcsclean_hybrid <- function(dataset, notes, propor, identifier, pageid, toclean){
   #Currently case-sensitive.

@@ -17,11 +17,22 @@ lcsclean_hybrid(dataset, notes, propor, identifier, pageid, toclean)
 
 \item{pageid}{column name for page number}
 
-\item{toclean}{column name for notes to clean}
+\item{toclean}{column name for identifying column of notes to clean (TRUE/FALSE)}
 }
 \value{
 a data frame
 }
 \description{
-Longest Common Substring Note Cleaning for Hybrid Method
+This function is used to apply the longest common substring method to extreme values in a dataset.
+To be used after applying \code{\link[=firstnchar]{firstnchar()}} and \code{\link[=extremeid]{extremeid()}}. Dataset should have
+a "page_notes" column corresponding to the cleaned notes outcome from \code{\link[=firstnchar]{firstnchar()}}.
+}
+\examples{
+test_dataset <- data.frame(ID=c("1","1","2","2","1", "3","3"),
+Notes=c("The","The cat","The","The dog","The cat ran",
+"the chicken was chased", "The goat chased the chicken"),
+Page=c(1,2,1,2,3,1,2), cleaning = c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE),
+page_notes = c("The","The cat","The","The dog","The cat ran",
+"the chicken was chased", "The goat chased the chicken"))
+lcsclean_hybrid(test_dataset,"Notes",0.5,"ID","Page", "cleaning")
 }

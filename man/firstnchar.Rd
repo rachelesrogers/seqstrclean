@@ -21,11 +21,15 @@ firstnchar(dataset, notes, char_diff, identifier, pageid)
 a data frame
 }
 \description{
-First N Character Note Cleaning
+This is a method of note cleaning that uses the length of the previous notes
+to compare to the beginning of the questioned page of notes. If there is
+enough correspondance between the two paes, the notes will be removed from the
+current page.
 }
 \examples{
 test_dataset <- data.frame(ID=c("1","1","2","2","1", "3", "3"),
-Notes=c("The","The cat","The","The dog","The cat ran", "the chicken was chased", "The goat chased the chicken"),
+Notes=c("The","The cat","The","The dog","The cat ran",
+"the chicken was chased", "The goat chased the chicken"),
 Page=c(1,2,1,2,3,1,2))
 firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
 }

@@ -21,13 +21,16 @@ extremeid(dataset, extreme, clean_notes, pageid, group_list = NA)
 a data frame
 }
 \description{
-Summarize Note Character Length
+Use to identify extreme values, based on cleaned note length, in a dataset.
+Can be used after applying \code{\link[=firstnchar]{firstnchar()}}
 }
 \examples{
 test_dataset <- data.frame(ID=c("1","1","2","2","1", "3","3"),
 Notes=c("The","The cat","The","The dog","The cat ran",
 "the chicken was chased", "The goat chased the chicken"),
 Page=c(1,2,1,2,3,1,2))
-cleaned_dataset<-firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
+cleaned_dataset<-
+firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,
+identifier="ID",pageid="Page")
 extremeid(dataset=cleaned_dataset,clean_notes="page_notes",extreme=2,pageid="Page")
 }
