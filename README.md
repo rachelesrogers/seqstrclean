@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# seqstrclean
+# seqstrclean <a href="https://rachelesrogers.github.io/seqstrclean/"><img src="man/figures/logo.png" align="right" height="139" alt="seqstrclean website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
