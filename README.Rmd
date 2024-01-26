@@ -122,9 +122,10 @@ For this method, a larger dataset may be necessary to demonstrate the presence o
 
 ```{r hybrid_dataset}
 library(kableExtra)
+library(dplyr)
 fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
-kable(head(fnc))
+kable(head(fnc, 3))
 ```
 
 Above demonstrates the validation dataset cleaned using the First N Character method, with a character difference cutoff of 16 (meaning that up to and including a 15 character difference is acceptable). 
@@ -136,7 +137,8 @@ Here, extreme values are defined as those that are larger than 4 standard deviat
 extreme_dataset <- extremeid(dataset=fnc, extreme=4, clean_notes="page_notes", 
                              pageid="page_count", group_list = c("algorithm"))
 
-kable(head(extreme_dataset))
+extreme_subset<- extreme_dataset[extreme_dataset$extreme_value==TRUE,]
+kable(head(extreme_subset, 1))
 
 ```
 
@@ -145,21 +147,20 @@ Note that the previous page of notes is also necessary for comparison in the Lon
 
 ```{r rerun_id}
 
-library(dplyr)
 extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
-kable(head(extreme_dataset %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs"))))
+kable(head(extreme_dataset %>% filter(apply_lcs==TRUE) %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs")), 1))
 
 ```
 Observations where "apply_lcs" is true indicate those difficult cases.
-They can then be run through the hybrid application of lcs to clean the remaining notes.
+They can then be run through the hybrid application of lcs to clean the remaining notes. Due to time, this process was only completed on a single participant.
 
 
 ```{r lcs_hybrid}
 
-hybrid_dataset <- lcsclean_hybrid(dataset=extreme_dataset, notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
+hybrid_dataset <- lcsclean_hybrid(dataset=subset(extreme_dataset, clean_prints==1), notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
 
-kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes"))))
+kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes")), 1))
 
 ```
 
