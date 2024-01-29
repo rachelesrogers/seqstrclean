@@ -30,7 +30,6 @@ For this method, a larger dataset may be necessary to demonstrate the presence o
 ```{r hybrid_dataset}
 library(kableExtra)
 library(dplyr)
-library(kable)
 fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
 kable(head(fnc, 3))
