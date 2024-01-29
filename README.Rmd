@@ -109,63 +109,6 @@ lcsclean(test_dataset,"Notes",0.25,"ID","Page")
 
 However, if the threshold is reduced further to 0.25 (or 1/4 of the previous notes), "chased" will be removed from the second page of notes as well, leaving only "the goat" in the clean notes.
 
-
-### Hybrid Method
-
-The third method attempts to combine the speed of the First N Character method with the accuracy of the Longest Common Substring method.
-This works by first applying the First N Character method, then applying the Longest Common Substring method for difficult cases - either when the edit distance is too large for the First N Character method to remove notes (such as the chicken chasing example above), or when the length of the cleaned notes is unusually large.
-Unusually large is defined as more than a set number of standard deviations above the mean clean note length, and is calculated using the extremeid function.
-
-For this method, a larger dataset may be necessary to demonstrate the presence of outliers, in terms of note size.
-
-
-
-```{r hybrid_dataset}
-library(kableExtra)
-library(dplyr)
-fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
-
-kable(head(fnc, 3))
-```
-
-Above demonstrates the validation dataset cleaned using the First N Character method, with a character difference cutoff of 16 (meaning that up to and including a 15 character difference is acceptable). 
-In order to determine if there are any extremely long note pages that should be considered for the Longest Common Substring method, the extremeid function is applied.
-Here, extreme values are defined as those that are larger than 4 standard deviations above the mean page length, based on algorithm condition (because these resulted in different pages, and thus different notes).
-
-```{r hybride_extreme}
-
-extreme_dataset <- extremeid(dataset=fnc, extreme=4, clean_notes="page_notes", 
-                             pageid="page_count", group_list = c("algorithm"))
-
-kable(head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "corrected_notes", "page_notes", "extreme_value")), 1))
-
-```
-
-The comments that should then be considered using the Longest Common Substring method are those with an extremely large amount of notes (extreme_value=TRUE), and those with an edit distance above the cutoff used in the First N Character method (larger than 15).
-Note that the previous page of notes is also necessary for comparison in the Longest Common Substring method.
-
-```{r rerun_id}
-
-extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
-
-kable(head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs")), 1))
-
-```
-Observations where "apply_lcs" is true indicate those difficult cases.
-They can then be run through the hybrid application of lcs to clean the remaining notes. Due to time, this process was only completed on a single participant.
-
-
-```{r lcs_hybrid}
-
-hybrid_dataset <- lcsclean_hybrid(dataset=subset(extreme_dataset, clean_prints==39), notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
-
-kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes")), 1))
-
-```
-
-The above notes show the difficult cases for the First N Character method (indicated as "page_notes") and the Longest Common Substring ("lcs_notes"). 
-The hybrid column combines the two methods for the complete notes.
-
 ## Acknowledgements
 
 This work was funded (or partially funded) by the Center for Statistics and Applications in Forensic Evidence (CSAFE) 
