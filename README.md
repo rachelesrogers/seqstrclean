@@ -84,7 +84,9 @@ separate these notes, based on what was written per page.
 
 ``` r
 
-firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
+fnc_app <- firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
+
+fnc_app
 #>   ID                       Notes Page                  page_notes edit_distance
 #> 1  1                         The    1                         The            NA
 #> 2  1                     The cat    2                         cat             0
@@ -174,6 +176,78 @@ lcsclean(test_dataset,"Notes",0.25,"ID","Page")
 However, if the threshold is reduced further to 0.25 (or 1/4 of the
 previous notes), “chased” will be removed from the second page of notes
 as well, leaving only “the goat” in the clean notes.
+
+### Hybrid Method
+
+The hybrid method combines both the Longest Common Substring and the
+First N Character methods. First, the First N Character method is
+applied. The cleaned notes from the First N Character method are
+evaluated based on two criteria: the presence of unusually long notes,
+and the presence of notes with a larger edit distance than what the
+First N Character method can handle. Unusually long notes are identified
+through the \[extremeid()\] function:
+
+``` r
+
+extreme_exam <- extremeid(dataset=fnc_app,clean_notes="page_notes",extreme=2,pageid="Page")
+
+extreme_exam
+#>   ID                       Notes Page                  page_notes edit_distance
+#> 1  1                         The    1                         The            NA
+#> 2  1                     The cat    2                         cat             0
+#> 3  2                         The    1                         The            NA
+#> 4  2                     The dog    2                         dog             0
+#> 5  1                 The cat ran    3                         ran             0
+#> 6  3      the chicken was chased    1      the chicken was chased            NA
+#> 7  3 The goat chased the chicken    2 The goat chased the chicken            17
+#>   note_length  outlier      mean       sd extreme_value
+#> 1           3 31.27264  9.333333 10.96966         FALSE
+#> 2           4 38.22478 11.666667 13.27906         FALSE
+#> 3           3 31.27264  9.333333 10.96966         FALSE
+#> 4           4 38.22478 11.666667 13.27906         FALSE
+#> 5           4       NA  4.000000       NA            NA
+#> 6          22 31.27264  9.333333 10.96966         FALSE
+#> 7          27 38.22478 11.666667 13.27906         FALSE
+```
+
+In this case, none of the notes have an extreme value, or a value more
+than two standard deviations above the mean note length for the given
+page. However, we also want to apply the Longest Common Substring method
+when the edit distance was too large for the First N Character method to
+handle (in this case, an edit distance larger than two):
+
+``` r
+
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+
+extreme_exam <- extreme_exam %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 2), TRUE, FALSE))
+
+extreme_exam
+#>   ID                       Notes Page                  page_notes edit_distance
+#> 1  1                         The    1                         The            NA
+#> 2  1                     The cat    2                         cat             0
+#> 3  2                         The    1                         The            NA
+#> 4  2                     The dog    2                         dog             0
+#> 5  1                 The cat ran    3                         ran             0
+#> 6  3      the chicken was chased    1      the chicken was chased            NA
+#> 7  3 The goat chased the chicken    2 The goat chased the chicken            17
+#>   note_length  outlier      mean       sd extreme_value apply_lcs
+#> 1           3 31.27264  9.333333 10.96966         FALSE     FALSE
+#> 2           4 38.22478 11.666667 13.27906         FALSE     FALSE
+#> 3           3 31.27264  9.333333 10.96966         FALSE     FALSE
+#> 4           4 38.22478 11.666667 13.27906         FALSE     FALSE
+#> 5           4       NA  4.000000       NA            NA        NA
+#> 6          22 31.27264  9.333333 10.96966         FALSE     FALSE
+#> 7          27 38.22478 11.666667 13.27906         FALSE      TRUE
+```
 
 ## Acknowledgements
 

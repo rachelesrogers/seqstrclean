@@ -67,8 +67,9 @@ The First N Character method can be used to separate these notes, based on what 
 
 ```{r fnc_continued}
 
-firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
+fnc_app <- firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
 
+fnc_app
 ```
 
 Here, page_notes displays the clean notes, and edit_distance refers to the distance between the previous page of notes and the first n character of the current page of notes.
@@ -108,6 +109,34 @@ lcsclean(test_dataset,"Notes",0.25,"ID","Page")
 ```
 
 However, if the threshold is reduced further to 0.25 (or 1/4 of the previous notes), "chased" will be removed from the second page of notes as well, leaving only "the goat" in the clean notes.
+
+### Hybrid Method
+
+The hybrid method combines both the Longest Common Substring and the First N Character methods.
+First, the First N Character method is applied.
+The cleaned notes from the First N Character method are evaluated based on two criteria: the presence of unusually long notes, and the presence of notes with a larger edit distance than what the First N Character method can handle.
+Unusually long notes are identified through the [extremeid()] function:
+
+```{r}
+
+extreme_exam <- extremeid(dataset=fnc_app,clean_notes="page_notes",extreme=2,pageid="Page")
+
+extreme_exam
+
+```
+
+In this case, none of the notes have an extreme value, or a value more than two standard deviations above the mean note length for the given page.
+However, we also want to apply the Longest Common Substring method when the edit distance was too large for the First N Character method to handle (in this case, an edit distance larger than two):
+
+```{r}
+
+library(dplyr)
+
+extreme_exam <- extreme_exam %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 2), TRUE, FALSE))
+
+extreme_exam
+
+```
 
 ## Acknowledgements
 
