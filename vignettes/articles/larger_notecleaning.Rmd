@@ -32,7 +32,7 @@ library(kableExtra)
 library(dplyr)
 fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
-kableExtra::kable(head(fnc, 3))
+head(fnc, 3)
 ```
 
 Above demonstrates the validation dataset cleaned using the First N Character method, with a character difference cutoff of 16 (meaning that up to and including a 15 character difference is acceptable). 
