@@ -118,16 +118,59 @@ presence of outliers, in terms of note size.</p>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">fnc</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/firstnchar.html">firstnchar</a></span><span class="op">(</span><span class="va">validation_dataset</span>, <span class="st">"notes"</span>, <span class="fl">16</span>, <span class="st">"clean_prints"</span>, <span class="st">"page_count"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fnc</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
-<span><span class="co">#&gt;   clean_prints page_count notes             corrected_notes algorithm page_notes</span></span>
-<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>            1          1  <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>              Yes        <span style="color: #BB0000;">NA</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>            1          2 <span style="color: #949494;">"</span>discharge firea… discharge fire… Yes       <span style="color: #949494;">"</span>discharg…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>            1          3 <span style="color: #949494;">"</span>discharge firea… ski mask. no m… Yes       <span style="color: #949494;">"</span>\r\n\r\n…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: edit_distance &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fnc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">algorithm</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="4%">
+<col width="3%">
+<col width="39%">
+<col width="24%">
+<col width="24%">
+<col width="4%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">clean_prints</th>
+<th align="right">page_count</th>
+<th align="left">notes</th>
+<th align="left">corrected_notes</th>
+<th align="left">page_notes</th>
+<th align="right">edit_distance</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">discharge firearm in business- felony, not guilty</td>
+<td align="left">discharge firearm in business- felony, not guilty</td>
+<td align="left">discharge firearm in business- felony, not guilty</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="left">discharge firearm in business- felony, not guilty</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<p>ski mask. no money, no injuries. 9mm, arrested after confiscated and
+testing. |ski mask. no money, no injuries. 9mm, arrested after
+confiscated and testing. |ski mask. no money, no injuries. 9mm, arrested
+after confiscated and testing. | 0|</p>
 <p>Above demonstrates the validation dataset cleaned using the First N
 Character method, with a character difference cutoff of 16 (meaning that
 up to and including a 15 character difference is acceptable). In order
@@ -142,7 +185,7 @@ different notes).</p>
 <span><span class="va">extreme_dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extremeid.html">extremeid</a></span><span class="op">(</span>dataset<span class="op">=</span><span class="va">fnc</span>, extreme<span class="op">=</span><span class="fl">4</span>, clean_notes<span class="op">=</span><span class="st">"page_notes"</span>, </span>
 <span>                             pageid<span class="op">=</span><span class="st">"page_count"</span>, group_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"algorithm"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">extreme_value</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clean_prints"</span>, <span class="st">"page_count"</span>, <span class="st">"notes"</span>, <span class="st">"corrected_notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"extreme_value"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">extreme_value</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clean_prints"</span>, <span class="st">"page_count"</span>, <span class="st">"notes"</span>, <span class="st">"corrected_notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"extreme_value"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="0%">
@@ -381,7 +424,7 @@ Common Substring method.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">extreme_dataset</span> <span class="op">&lt;-</span> <span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>apply_lcs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">edit_distance</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">extreme_value</span><span class="op">==</span><span class="cn">TRUE</span> <span class="op">|</span> <span class="va">edit_distance</span> <span class="op">&gt;</span> <span class="fl">15</span><span class="op">)</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clean_prints"</span>, <span class="st">"page_count"</span>, <span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"apply_lcs"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clean_prints"</span>, <span class="st">"page_count"</span>, <span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"apply_lcs"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="0%">
@@ -602,7 +645,7 @@ on a single participant.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">hybrid_dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lcsclean_hybrid.html">lcsclean_hybrid</a></span><span class="op">(</span>dataset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">extreme_dataset</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span>, notes<span class="op">=</span><span class="st">"notes"</span>, propor<span class="op">=</span><span class="fl">0.333</span>, identifier<span class="op">=</span><span class="st">"clean_prints"</span>, pageid<span class="op">=</span><span class="st">"page_count"</span>, toclean<span class="op">=</span><span class="st">"apply_lcs"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hybrid_dataset</span><span class="op">[</span><span class="va">hybrid_dataset</span><span class="op">$</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>,<span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clean_prints"</span>, <span class="st">"page_count"</span>, <span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"lcs_notes"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hybrid_dataset</span><span class="op">[</span><span class="va">hybrid_dataset</span><span class="op">$</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>,<span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clean_prints"</span>, <span class="st">"page_count"</span>, <span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"lcs_notes"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="0%">
