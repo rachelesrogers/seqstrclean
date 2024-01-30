@@ -22,4 +22,5 @@ Depends:
 LazyData: true
 Config/Needs/website: rmarkdown
 Suggests: 
-    kableExtra
+    kableExtra,
+    knitr

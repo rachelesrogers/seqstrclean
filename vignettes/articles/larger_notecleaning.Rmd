@@ -30,9 +30,11 @@ For this method, a larger dataset may be necessary to demonstrate the presence o
 ```{r hybrid_dataset}
 library(kableExtra)
 library(dplyr)
+library(knitr)
+
 fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
-head(fnc, 3)
+knitr::kable(head(fnc %>% select(-algorithm), 3))
 ```
 
 Above demonstrates the validation dataset cleaned using the First N Character method, with a character difference cutoff of 16 (meaning that up to and including a 15 character difference is acceptable). 
@@ -44,7 +46,7 @@ Here, extreme values are defined as those that are larger than 4 standard deviat
 extreme_dataset <- extremeid(dataset=fnc, extreme=4, clean_notes="page_notes", 
                              pageid="page_count", group_list = c("algorithm"))
 
-kableExtra::kable(head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "corrected_notes", "page_notes", "extreme_value")), 1))
+knitr::kable(head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "corrected_notes", "page_notes", "extreme_value")), 1))
 
 ```
 
@@ -56,7 +58,7 @@ Note that the previous page of notes is also necessary for comparison in the Lon
 
 extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
-kableExtra::kable(head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs")), 1))
+knitr::kable(head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs")), 1))
 
 ```
 
@@ -70,7 +72,7 @@ They can then be run through the hybrid application of lcs to clean the remainin
 
 hybrid_dataset <- lcsclean_hybrid(dataset=subset(extreme_dataset, clean_prints==39), notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
 
-kableExtra::kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes")), 1))
+knitr::kable(head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes")), 1))
 
 ```
 
