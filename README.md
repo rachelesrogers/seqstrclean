@@ -238,6 +238,46 @@ extreme_exam
 #> 7          27 38.22478 11.666667 13.27906         FALSE      TRUE
 ```
 
+Based on the output above, the final line of page notes is suspect -
+because its edit distance is larger than can be handled by the First N
+Character method.
+
+``` r
+
+hybrid_dataset <- lcsclean_hybrid(extreme_exam,"Notes",0.25,"ID","Page", "apply_lcs")
+
+hybrid_dataset
+#>   ID                       Notes Page                  page_notes edit_distance
+#> 1  1                         The    1                         The            NA
+#> 2  1                     The cat    2                         cat             0
+#> 3  2                         The    1                         The            NA
+#> 4  2                     The dog    2                         dog             0
+#> 5  1                 The cat ran    3                         ran             0
+#> 6  3      the chicken was chased    1      the chicken was chased            NA
+#> 7  3 The goat chased the chicken    2 The goat chased the chicken            17
+#>   note_length  outlier      mean       sd extreme_value apply_lcs lcs_notes
+#> 1           3 31.27264  9.333333 10.96966         FALSE     FALSE      <NA>
+#> 2           4 38.22478 11.666667 13.27906         FALSE     FALSE      <NA>
+#> 3           3 31.27264  9.333333 10.96966         FALSE     FALSE      <NA>
+#> 4           4 38.22478 11.666667 13.27906         FALSE     FALSE      <NA>
+#> 5           4       NA  4.000000       NA            NA        NA      <NA>
+#> 6          22 31.27264  9.333333 10.96966         FALSE     FALSE      <NA>
+#> 7          27 38.22478 11.666667 13.27906         FALSE      TRUE The goat 
+#>             hybrid_notes
+#> 1                    The
+#> 2                    cat
+#> 3                    The
+#> 4                    dog
+#> 5                    ran
+#> 6 the chicken was chased
+#> 7              The goat
+```
+
+The hybrid_notes column combines the results from the First N Character
+method with the Longest Common Substring results, where the LCS method
+is applied: resulting in the shorter text of “The goat” for the final
+entry.
+
 ## Acknowledgements
 
 This work was funded (or partially funded) by the Center for Statistics

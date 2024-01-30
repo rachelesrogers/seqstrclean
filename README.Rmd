@@ -129,6 +129,18 @@ extreme_exam
 
 ```
 
+Based on the output above, the final line of page notes is suspect - because its edit distance is larger than can be handled by the First N Character method.
+
+
+```{r}
+
+hybrid_dataset <- lcsclean_hybrid(extreme_exam,"Notes",0.25,"ID","Page", "apply_lcs")
+
+hybrid_dataset
+```
+
+The hybrid_notes column combines the results from the First N Character method with the Longest Common Substring results, where the LCS method is applied: resulting in the shorter text of "The goat" for the final entry.
+
 ## Acknowledgements
 
 This work was funded (or partially funded) by the Center for Statistics and Applications in Forensic Evidence (CSAFE) 

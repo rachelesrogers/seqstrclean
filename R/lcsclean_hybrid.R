@@ -24,6 +24,7 @@
 lcsclean_hybrid <- function(dataset, notes, propor, identifier, pageid, toclean){
   #Currently case-sensitive.
   toclean_subset <- dataset[dataset[[toclean]]==TRUE,]
+  toclean_subset <- toclean_subset[!is.na(toclean_subset[[identifier]]),]
 
   reduced_comments_substring <- data.frame(page_count = NA, lcs_notes=NA, identifier=NA)
   unique_ids <- unique(dplyr::select(toclean_subset,tidyselect::all_of(identifier)))
