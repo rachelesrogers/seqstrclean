@@ -82,15 +82,6 @@ Thus, the second page of the third individual's notes include the full text reco
 The second method is the Longest Common Substring method, where the two page note strings are compared in their entirity for the longest string they have in common, above a certain threshold.
 This longest string is then removed from the current page of notes, and the process is repeated until the longest common substring is no longer above the assigned cutoff.
 
-```{r lcs_example}
-test_dataset <- data.frame(ID=c("1","1","2","2","1", "3", "3"),
-Notes=c("The","The cat","The","The dog","The cat ran", "the chicken was chased", "The goat chased the chicken"),
-Page=c(1,2,1,2,3,1,2))
-```
-
-The dataset above is the same as that of the First N Character method, aside from the third notetaker.
-In this case, the third notetaker wrote "the chicken was chased" on the first page, and "The goat chased the chicken" on the second page.
-
 ```{r lcs_continued}
 lcsclean(test_dataset,"Notes",0.5,"ID","Page")
 ```

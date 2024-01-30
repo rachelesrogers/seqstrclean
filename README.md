@@ -118,17 +118,6 @@ until the longest common substring is no longer above the assigned
 cutoff.
 
 ``` r
-test_dataset <- data.frame(ID=c("1","1","2","2","1", "3", "3"),
-Notes=c("The","The cat","The","The dog","The cat ran", "the chicken was chased", "The goat chased the chicken"),
-Page=c(1,2,1,2,3,1,2))
-```
-
-The dataset above is the same as that of the First N Character method,
-aside from the third notetaker. In this case, the third notetaker wrote
-“the chicken was chased” on the first page, and “The goat chased the
-chicken” on the second page.
-
-``` r
 lcsclean(test_dataset,"Notes",0.5,"ID","Page")
 #>   ID                       Notes Page                  page_notes
 #> 1  1                         The    1                         The
