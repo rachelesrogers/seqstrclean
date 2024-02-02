@@ -2,8 +2,10 @@ Package: seqstrclean
 Title: Sequential String Cleaning
 Version: 0.0.0.9000
 Authors@R: 
-    person("Rachel", "Rogers", , "rachel.rogers@huskers.unl.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-4145-9630"))
+    c(person("Rachel", "Rogers", , "rachel.rogers@huskers.unl.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4145-9630")),
+           person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = c("aut"),
+           comment = c(ORCID = "0000-0002-3803-0972")))
 Description: This package is used to clean sequential notes. Namely, to remove a previous page's notes from the current note sheet.
 License: MIT + file LICENSE
 Encoding: UTF-8
