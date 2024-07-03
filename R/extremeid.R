@@ -24,6 +24,7 @@
 #' extremeid(dataset=cleaned_dataset,clean_notes="page_notes",extreme=2,pageid="Page")
 extremeid <- function(dataset, extreme, clean_notes, pageid, group_list=NA){
   `%>%` <- magrittr::`%>%`
+  note_length <- NULL
   dataset$note_length <- nchar(dataset[[clean_notes]])
 
   if (sum(is.na(dataset$note_length))>0){
