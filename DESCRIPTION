@@ -2,7 +2,8 @@ Package: seqstrclean
 Title: Sequential String Cleaning
 Version: 0.0.0.9000
 Authors@R: 
-    c(person("Rachel", "Rogers", , "rrogers.rpackages@gmail.com", role = c("aut", "cre"),
+    c(person("Center for Statistics and Applications in Forensic Evidence", role=c("aut", "cph", "fnd")),
+    person("Rachel", "Rogers", , "rrogers.rpackages@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4145-9630")),
            person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = c("aut"),
            comment = c(ORCID = "0000-0002-3803-0972")))
