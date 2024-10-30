@@ -5,7 +5,7 @@ Authors@R:
     c(person("Center for Statistics and Applications in Forensic Evidence", role=c("aut", "cph", "fnd")),
     person("Rachel", "Rogers", , "rrogers.rpackages@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4145-9630")),
-           person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = c("aut"),
+           person("Susan", "VanderPlas", , "srvanderplas@gmail.com", role = c("aut"),
            comment = c(ORCID = "0000-0002-3803-0972")))
 Description: Clean sequential notes by removing a previous page's notes from the current note sheet.
     This method is described in Chapter 3 of 
