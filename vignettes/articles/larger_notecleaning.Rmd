@@ -35,10 +35,11 @@ library(knitr)
 fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
 
-fnc_printable <- fnc %>% slice(-1) %>% select(-c(algorithm,page_notes)) %>% head(3)
+fnc_printable <- fnc %>% slice(-1) %>% select(-c(algorithm,page_notes,clean_prints)) %>% head(3)
 fnc_printable <- purrr::map_df(fnc_printable, ~ gsub("[\r\n]", " ", .x)) #removing line breaks
 
-fnc_printable %>% kable()
+fnc_printable %>% kable()%>%
+  kable_styling(font_size = 8)
 ```
 
 Above demonstrates the validation dataset cleaned using the First N Character method, with a character difference cutoff of 16 (meaning that up to and including a 15 character difference is acceptable). 
@@ -50,11 +51,12 @@ Here, extreme values are defined as those that are larger than 4 standard deviat
 extreme_dataset <- extremeid(dataset=fnc, extreme=4, clean_notes="page_notes", 
                              pageid="page_count", group_list = c("algorithm"))
 
-extreme_printable <- head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "corrected_notes", "page_notes", "extreme_value")), 1)
+extreme_printable <- head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("notes", "corrected_notes", "page_notes", "extreme_value")), 1)
 
 extreme_printable <- purrr::map_df(extreme_printable, ~ gsub("[\r\n]", " ", .x))
 
-extreme_printable %>% kable()
+extreme_printable %>% kable()%>%
+  kable_styling(font_size = 8)
 
 ```
 
@@ -66,11 +68,12 @@ Note that the previous page of notes is also necessary for comparison in the Lon
 
 extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
-extreme_printable2 <- head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "apply_lcs")), 1)
+extreme_printable2 <- head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("notes", "page_notes", "apply_lcs")), 1)
 
 extreme_printable2 <- purrr::map_df(extreme_printable2, ~ gsub("[\r\n]", " ", .x))
 
-extreme_printable2 %>% kable()
+extreme_printable2 %>% kable()%>%
+  kable_styling(font_size = 8)
 
 ```
 
@@ -84,11 +87,12 @@ They can then be run through the hybrid application of lcs to clean the remainin
 
 hybrid_dataset <- lcsclean_hybrid(dataset=subset(extreme_dataset, clean_prints==39), notes="notes", propor=0.333, identifier="clean_prints", pageid="page_count", toclean="apply_lcs")
 
-hybrid_printable <- head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("clean_prints", "page_count", "notes", "page_notes", "lcs_notes")), 1)
+hybrid_printable <- head(hybrid_dataset[hybrid_dataset$apply_lcs==TRUE,] %>% subset(select=c("notes", "page_notes", "lcs_notes")), 1)
 
 hybrid_printable <- purrr::map_df(hybrid_printable, ~ gsub("[\r\n]", " ", .x))
 
-hybrid_printable %>% kable()
+hybrid_printable %>% kable()%>%
+  kable_styling(font_size = 8)
 
 ```
 
