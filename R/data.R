@@ -12,5 +12,5 @@
 #'   \item{corrected_notes}{hand cleaned notes to demonstrate correct format}
 #'
 #' }
-#' @source Jury Perception Study
+#' @source Jury Perception Study (see Rogers (2024) <https://digitalcommons.unl.edu/dissertations/AAI31240449/>)
 "validation_dataset"

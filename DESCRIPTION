@@ -7,7 +7,9 @@ Authors@R:
            comment = c(ORCID = "0000-0002-4145-9630")),
            person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = c("aut"),
            comment = c(ORCID = "0000-0002-3803-0972")))
-Description: This package is used to clean sequential notes. Namely, to remove a previous page's notes from the current note sheet.
+Description: Clean sequential notes by removing a previous page's notes from the current note sheet.
+    This method is described in Chapter 3 of 
+    Rogers (2024) <https://digitalcommons.unl.edu/dissertations/AAI31240449/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -26,4 +28,6 @@ LazyData: true
 Config/Needs/website: rmarkdown
 Suggests: 
     kableExtra,
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
