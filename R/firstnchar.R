@@ -59,9 +59,9 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
         edit_distance <-utils::adist(previous_notes, by_id[by_id[[pageid]]==j-1,][[notes]])
         if (edit_distance < char_diff){
-          reduced_comments[j,]$page_notes <- substring(by_id[by_id[[pageid]]==j,][[notes]],nchar(by_id[by_id[[pageid]]==j-1,][[notes]])+1)
+          reduced_comments[j,]$page_notes <- stringr::str_trim(substring(by_id[by_id[[pageid]]==j,][[notes]],nchar(by_id[by_id[[pageid]]==j-1,][[notes]])+1))
         }else{
-          reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
+          reduced_comments[j,]$page_notes <- stringr::str_trim(by_id[by_id[[pageid]]==j,][[notes]])
         }
         reduced_comments[j,]$edit_distance <- edit_distance
 

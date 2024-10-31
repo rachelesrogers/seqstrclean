@@ -4,7 +4,7 @@ test_that("basic example works", {
   "the chicken was chased", "The goat chased the chicken"),
   Page=c(1,2,1,2,3,1,2))
   first_test <- firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
-  expect_equal(first_test$page_notes, c("The"," cat","The"," dog"," ran","the chicken was chased",
+  expect_equal(first_test$page_notes, c("The","cat","The","dog","ran","the chicken was chased",
                                         "The goat chased the chicken"))
 })
 
@@ -14,7 +14,7 @@ test_that("line breaks treated well", {
                                      "the chicken was chased", "The goat chased the chicken"),
                              Page=c(1,2,1,2,3,1,2))
   first_test <- firstnchar(dataset=test_dataset,notes="Notes",char_diff=3,identifier="ID",pageid="Page")
-  expect_equal(first_test$page_notes, c("The"," cat","The"," dog"," ran","the chicken was chased",
+  expect_equal(first_test$page_notes, c("The","cat","The","dog","ran","the chicken was chased",
                                         "The goat chased the chicken"))
 })
 
