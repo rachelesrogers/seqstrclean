@@ -26,6 +26,8 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
   full_reduced_comments <- data.frame(page_count = NA, page_notes=NA, edit_distance=NA, identifier=NA)
 
+  dataset[[notes]] <- stringr::str_trim(dataset[[notes]])
+
   #unique_ids <- dataset %>% dplyr::select(tidyselect::all_of(identifier)) %>% unique()
   unique_ids <- unique(dplyr::select(dataset,tidyselect::all_of(identifier)))
 
@@ -33,7 +35,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
     reduced_comments <- data.frame(page_count = NA, page_notes=NA, edit_distance=NA, identifier=NA)
     by_id <- dataset[dataset[[identifier]]==unlist(unique_ids[i,]),]
     if (dim(by_id[by_id[[pageid]]==1,])[1] > 1){
-      print(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
+      stop(paste("Multiple Page 1 for ID", unique_ids[i,], sep= " "))
       break
     }
     for (j in 1:max(by_id[[pageid]])){
@@ -56,7 +58,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
         if (nchar(previous_notes) > 0){
 
         edit_distance <-utils::adist(previous_notes, by_id[by_id[[pageid]]==j-1,][[notes]])
-        if (edit_distance < char_diff){ #Should only call nchar once - not do the same calculation twice
+        if (edit_distance < char_diff){
           reduced_comments[j,]$page_notes <- substring(by_id[by_id[[pageid]]==j,][[notes]],nchar(by_id[by_id[[pageid]]==j-1,][[notes]])+1)
         }else{
           reduced_comments[j,]$page_notes <- by_id[by_id[[pageid]]==j,][[notes]]
