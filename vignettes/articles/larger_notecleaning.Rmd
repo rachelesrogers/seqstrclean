@@ -27,7 +27,7 @@ For this method, a larger dataset may be necessary to demonstrate the presence o
 
 
 
-```{r hybrid_dataset}
+```{r hybrid_dataset, warning=FALSE, message=FALSE}
 library(kableExtra)
 library(dplyr)
 library(knitr)
@@ -35,7 +35,7 @@ library(knitr)
 fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
 
 
-fnc_printable <- fnc %>% slice(-1) %>% select(-c(algorithm,page_notes,clean_prints)) %>% head(3)
+fnc_printable <- fnc %>% slice(-1) %>% select(-c(algorithm,corrected_notes,clean_prints)) %>% head(3)
 fnc_printable <- purrr::map_df(fnc_printable, ~ gsub("[\r\n]", " ", .x)) #removing line breaks
 
 fnc_printable %>% kable()%>%
@@ -43,15 +43,37 @@ fnc_printable %>% kable()%>%
 ```
 
 Above demonstrates the validation dataset cleaned using the First N Character method, with a character difference cutoff of 16 (meaning that up to and including a 15 character difference is acceptable). 
-In order to determine if there are any extremely long note pages that should be considered for the Longest Common Substring method, the extremeid function is applied.
-Here, extreme values are defined as those that are larger than 4 standard deviations above the mean page length, based on algorithm condition (because these resulted in different pages, and thus different notes).
+In the above example, the method is successfully applied (as can be seen comparing the "notes" column to the cleaned "page_notes" column).
 
-```{r hybride_extreme}
+However, not all notes are as clear-cut as the example above.
+For the example below, the true value of the cleaned notes should be as shown in the "corrected_notes" column.
+The First N Character method fails in this case - because the edit distance (94) is larger than the set threshold (16), no notes would be removed.
+
+```{r hybrid_dataset2, warning=FALSE, message=FALSE}
+library(kableExtra)
+library(dplyr)
+library(knitr)
+
+fnc<-firstnchar(validation_dataset, "notes", 16, "clean_prints", "page_count")
+
+
+fnc_printable2 <- head(fnc %>% filter(clean_prints==39, page_count==12) %>% select(-c(algorithm,page_notes,clean_prints, page_count)), 1)
+fnc_printable2 <- purrr::map_df(fnc_printable2, ~ gsub("[\r\n]", " ", .x)) #removing line breaks
+
+fnc_printable2 %>% kable()%>%
+  kable_styling(font_size = 8)
+```
+
+In order to determine if there are any extremely long note pages that should be considered for the Longest Common Substring method, the extremeid function is applied.
+Here, extreme values are defined as those that are larger than 4 standard deviations above the mean page length, based on a condition in the dataframe ("algorithm"), which resulted in different information being presented to note-takers, thus providing different notes.
+
+
+```{r hybrid_extreme}
 
 extreme_dataset <- extremeid(dataset=fnc, extreme=4, clean_notes="page_notes", 
                              pageid="page_count", group_list = c("algorithm"))
 
-extreme_printable <- head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("notes", "corrected_notes", "page_notes", "extreme_value")), 1)
+extreme_printable <- head(extreme_dataset %>% filter(extreme_value==TRUE, clean_prints==39) %>% subset(select=c("page_notes", "note_length", "outlier", "extreme_value")), 1)
 
 extreme_printable <- purrr::map_df(extreme_printable, ~ gsub("[\r\n]", " ", .x))
 
@@ -68,7 +90,7 @@ Note that the previous page of notes is also necessary for comparison in the Lon
 
 extreme_dataset <- extreme_dataset %>% mutate(apply_lcs = ifelse(!is.na(edit_distance) & (extreme_value==TRUE | edit_distance > 15), TRUE, FALSE))
 
-extreme_printable2 <- head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("notes", "page_notes", "apply_lcs")), 1)
+extreme_printable2 <- head(extreme_dataset %>% filter(apply_lcs==TRUE, clean_prints==39) %>% subset(select=c("page_notes", "corrected_notes", "apply_lcs")), 1)
 
 extreme_printable2 <- purrr::map_df(extreme_printable2, ~ gsub("[\r\n]", " ", .x))
 
