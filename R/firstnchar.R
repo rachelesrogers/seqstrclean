@@ -45,7 +45,7 @@ firstnchar <- function(dataset, notes, char_diff, identifier, pageid){
 
       }else{
       if (dim(by_id[by_id[[pageid]]==j,])[1] > 1){
-        print(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
+        stop(paste("Multiple Page", j, "for ID", unique_ids[i,], sep= " "))
         break
 
       }
