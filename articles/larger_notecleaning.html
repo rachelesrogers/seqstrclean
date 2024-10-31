@@ -445,7 +445,7 @@ Common Substring method.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">extreme_dataset</span> <span class="op">&lt;-</span> <span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>apply_lcs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">edit_distance</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">extreme_value</span><span class="op">==</span><span class="cn">TRUE</span> <span class="op">|</span> <span class="va">edit_distance</span> <span class="op">&gt;</span> <span class="fl">15</span><span class="op">)</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">extreme_printable2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"page_notes"</span>, <span class="st">"corrected_notes"</span>, <span class="st">"apply_lcs"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">extreme_printable2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">extreme_dataset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"page_notes"</span>, <span class="st">"edit_distance"</span>, <span class="st">"apply_lcs"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">extreme_printable2</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df</a></span><span class="op">(</span><span class="va">extreme_printable2</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"[\r\n]"</span>, <span class="st">" "</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -457,7 +457,7 @@ Common Substring method.</p>
 page_notes
 </th>
 <th style="text-align:left;">
-corrected_notes
+edit_distance
 </th>
 <th style="text-align:left;">
 apply_lcs
@@ -553,18 +553,7 @@ if it’s correct? A: Yes. Q: That’s what we call peer review? A: Peer
 review, yes.
 </td>
 <td style="text-align:left;">
-A: No. When firing a firearm there is a dynamic process because it is a
-contained explosion. When the firing pin hits the primer, which is
-basically the initiator, what gets it going, it will explode, burn the
-gun powder inside the casing, and the bullet will travel down the
-barrel, picking up the microscopic imperfections of the barrel, and the
-cartridge case will slam rearward against the support mechanism. During
-that dynamic process, each time it happens, a bullet will be marked
-slightly differently from one to the next. Q: Is it the local police
-department’s protocol to have somebody else who’s a firearms tool mark
-examiner in your lab review that report, review your work, and determine
-if it’s correct? A: Yes. Q: That’s what we call peer review? A: Peer
-review, yes.
+1062
 </td>
 <td style="text-align:left;">
 TRUE
@@ -579,7 +568,11 @@ on a single participant.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">hybrid_dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lcsclean_hybrid.html">lcsclean_hybrid</a></span><span class="op">(</span>dataset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">extreme_dataset</span>, <span class="va">clean_prints</span><span class="op">==</span><span class="fl">39</span><span class="op">)</span>, notes<span class="op">=</span><span class="st">"notes"</span>, propor<span class="op">=</span><span class="fl">0.333</span>, identifier<span class="op">=</span><span class="st">"clean_prints"</span>, pageid<span class="op">=</span><span class="st">"page_count"</span>, toclean<span class="op">=</span><span class="st">"apply_lcs"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hybrid_printable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hybrid_dataset</span><span class="op">[</span><span class="va">hybrid_dataset</span><span class="op">$</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>,<span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"lcs_notes"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">hybrid_printable1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hybrid_dataset</span><span class="op">[</span><span class="va">hybrid_dataset</span><span class="op">$</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">TRUE</span>,<span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"lcs_notes"</span>, <span class="st">"hybrid_notes"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hybrid_printable2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hybrid_dataset</span><span class="op">[</span><span class="va">hybrid_dataset</span><span class="op">$</span><span class="va">apply_lcs</span><span class="op">==</span><span class="cn">FALSE</span> <span class="op">&amp;</span> <span class="op">!</span><span class="op">(</span><span class="va">hybrid_dataset</span><span class="op">$</span><span class="va">page_count</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,<span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>select<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"notes"</span>, <span class="st">"page_notes"</span>, <span class="st">"lcs_notes"</span>, <span class="st">"hybrid_notes"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hybrid_printable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">hybrid_printable2</span>,<span class="va">hybrid_printable1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hybrid_printable</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df</a></span><span class="op">(</span><span class="va">hybrid_printable</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"[\r\n]"</span>, <span class="st">" "</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -596,8 +589,82 @@ page_notes
 <th style="text-align:left;">
 lcs_notes
 </th>
+<th style="text-align:left;">
+hybrid_notes
+</th>
 </tr></thead>
-<tbody><tr>
+<tbody>
+<tr>
+<td style="text-align:left;">
+In this case, the defendant - Richard Cole - has been charged with
+willfully discharging a firearm in a place of business. This crime is a
+felony. Mr. Cole has pleaded not guilty to the charge.Police received a
+911 call from a convenience store clerk stating that a man had entered
+the store, pulled out a firearm, fired a shot into the ceiling, and then
+demanded money. The man ended up leaving the store without receiving any
+money and no one was hurt by the gunshot. The store clerk took the stand
+and stated that she did not get a close enough look at the robber’s face
+to make an identification, because the robber wore a ski mask. As the
+cashier was pulling out the money to hand to him, she pressed a hidden
+button that activated an alarm and called the police. Startled by the
+alarm bells, the robber rushed out of the store. Next, the detective
+testified that he arrived at the convenience store and interviewed the
+clerk. The detective recovered the 9mm bullet from the ceiling of the
+store, which was collected for forensic analysis. Two days later, a
+police officer pulled over Richard Cole for speeding. During a search of
+the Defendant’s vehicle, the detective located a 9mm handgun, which was
+legally licensed to the Defendant. Because this gun was the same caliber
+as the one used in the convenience store shooting, it was confiscated
+for testing. Richard Cole was subsequently arrested and charged with
+willfully discharging a firearm in a place of business.
+</td>
+<td style="text-align:left;">
+lice received a 911 call from a convenience store clerk stating that a
+man had entered the store, pulled out a firearm, fired a shot into the
+ceiling, and then demanded money. The man ended up leaving the store
+without receiving any money and no one was hurt by the gunshot. The
+store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask. As the cashier was pulling out the money to hand
+to him, she pressed a hidden button that activated an alarm and called
+the police. Startled by the alarm bells, the robber rushed out of the
+store. Next, the detective testified that he arrived at the convenience
+store and interviewed the clerk. The detective recovered the 9mm bullet
+from the ceiling of the store, which was collected for forensic
+analysis. Two days later, a police officer pulled over Richard Cole for
+speeding. During a search of the Defendant’s vehicle, the detective
+located a 9mm handgun, which was legally licensed to the Defendant.
+Because this gun was the same caliber as the one used in the convenience
+store shooting, it was confiscated for testing. Richard Cole was
+subsequently arrested and charged with willfully discharging a firearm
+in a place of business.
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+lice received a 911 call from a convenience store clerk stating that a
+man had entered the store, pulled out a firearm, fired a shot into the
+ceiling, and then demanded money. The man ended up leaving the store
+without receiving any money and no one was hurt by the gunshot. The
+store clerk took the stand and stated that she did not get a close
+enough look at the robber’s face to make an identification, because the
+robber wore a ski mask. As the cashier was pulling out the money to hand
+to him, she pressed a hidden button that activated an alarm and called
+the police. Startled by the alarm bells, the robber rushed out of the
+store. Next, the detective testified that he arrived at the convenience
+store and interviewed the clerk. The detective recovered the 9mm bullet
+from the ceiling of the store, which was collected for forensic
+analysis. Two days later, a police officer pulled over Richard Cole for
+speeding. During a search of the Defendant’s vehicle, the detective
+located a 9mm handgun, which was legally licensed to the Defendant.
+Because this gun was the same caliber as the one used in the convenience
+store shooting, it was confiscated for testing. Richard Cole was
+subsequently arrested and charged with willfully discharging a firearm
+in a place of business.
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 In this case, the defendant - Richard Cole - has been charged with
 willfully discharging a firearm in a place of business. This crime is a
@@ -788,12 +855,33 @@ examiner in your lab review that report, review your work, and determine
 if it’s correct?A: Yes.Q: That’s what we call peer review?A: Peer
 review, yes.
 </td>
-</tr></tbody>
+<td style="text-align:left;">
+A: No. When firing a firearm there is a dynamic process because it is a
+contained explosion. When the firing pin hits the primer, which is
+basically the initiator, what gets it going, it will explode, burn the
+gun powder inside the casing, and the bullet will travel down the
+barrel, picking up the microscopic imperfections of the barrel, and the
+cartridge case will slam rearward against the support mechanism. During
+that dynamic process, each time it happens, a bullet will be marked
+slightly differently from one to the nextQ: Is it the local police
+department’s protocol to have somebody else who’s a firearms tool mark
+examiner in your lab review that report, review your work, and determine
+if it’s correct?A: Yes.Q: That’s what we call peer review?A: Peer
+review, yes.
+</td>
+</tr>
+</tbody>
 </table>
-<p>The above notes show the difficult cases for the First N Character
-method (indicated as “page_notes”) and the Longest Common Substring
-(“lcs_notes”). The hybrid column combines the two methods for the
-complete notes.</p>
+<p>The above notes show an easy and a difficult case for the First N
+Character method (indicated as “page_notes”). In the first row, the FNC
+method is able to correctly distinguish between old and new notes (with
+a slight issue due to the lack of space between sentences, resulting in
+the lose of “Po” at the beginning of “Police”). In this case, LCS does
+not need to be applied, and the FNC notes are copied into the
+“hybrid_notes” column. In the second row, the FNC method fails, leading
+to the application of LCS. These notes are then included in the
+“hybrid_notes” column, so that this represents the full dataset of
+cleaned notes.</p>
 </div>
   </main>
 </div>
