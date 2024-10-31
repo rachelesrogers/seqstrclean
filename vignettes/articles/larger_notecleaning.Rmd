@@ -123,7 +123,7 @@ hybrid_printable %>% kable()%>%
 ```
 
 The above notes show an easy and a difficult case for the First N Character method (indicated as "page_notes").
-In the first row, the FNC method is able to correctly distinguish between old and new notes (with a slight issue due to the lack of space between sentences, resulting in the lose of "Po" at the beginning of "Police").
+In the first row, the FNC method is able to correctly distinguish between old and new notes (with a slight issue due to a deleted line break between sentences, resulting in the lose of "Po" at the beginning of "Police").
 In this case, LCS does not need to be applied, and the FNC notes are copied into the "hybrid_notes" column.
 In the second row, the FNC method fails, leading to the application of LCS.
 These notes are then included in the "hybrid_notes" column, so that this represents the full dataset of cleaned notes.
