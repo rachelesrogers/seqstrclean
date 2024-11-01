@@ -91,7 +91,7 @@ a "page_notes" column corresponding to the cleaned notes outcome from <code><a h
 <span class="r-in"><span>Page<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, cleaning <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>page_notes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The"</span>,<span class="st">"The cat"</span>,<span class="st">"The"</span>,<span class="st">"The dog"</span>,<span class="st">"The cat ran"</span>,</span></span>
 <span class="r-in"><span><span class="st">"the chicken was chased"</span>, <span class="st">"The goat chased the chicken"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">lcsclean_hybrid</span><span class="op">(</span><span class="va">test_dataset</span>,<span class="st">"Notes"</span>,<span class="fl">0.5</span>,<span class="st">"ID"</span>,<span class="st">"Page"</span>, <span class="st">"cleaning"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lcsclean_hybrid</span><span class="op">(</span><span class="va">test_dataset</span>,<span class="st">"Notes"</span>,<span class="fl">0.25</span>,<span class="st">"ID"</span>,<span class="st">"Page"</span>, <span class="st">"cleaning"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID                       Notes Page cleaning                  page_notes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1                         The    1    FALSE                         The</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1                     The cat    2    FALSE                     The cat</span>
@@ -100,14 +100,14 @@ a "page_notes" column corresponding to the cleaned notes outcome from <code><a h
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5  1                 The cat ran    3    FALSE                 The cat ran</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6  3      the chicken was chased    1    FALSE      the chicken was chased</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7  3 The goat chased the chicken    2     TRUE The goat chased the chicken</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     lcs_notes                hybrid_notes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                        &lt;NA&gt;                         The</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                        &lt;NA&gt;                     The cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                        &lt;NA&gt;                         The</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                         dog                         dog</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                        &lt;NA&gt;                 The cat ran</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                        &lt;NA&gt;      the chicken was chased</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 The goat chased the chicken The goat chased the chicken</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   lcs_notes           hybrid_notes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      &lt;NA&gt;                    The</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      &lt;NA&gt;                The cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      &lt;NA&gt;                    The</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       dog                    dog</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      &lt;NA&gt;            The cat ran</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      &lt;NA&gt; the chicken was chased</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  The goat               The goat</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -76,11 +76,10 @@ Character method with the accuracy of the Longest Common Substring
 method. This works by first applying the First N Character method, then
 applying the Longest Common Substring method for difficult cases -
 either when the edit distance is too large for the First N Character
-method to remove notes (such as the chicken chasing example above), or
-when the length of the cleaned notes is unusually large. Unusually large
-is defined as more than a set number of standard deviations above the
-mean clean note length, and is calculated using the extremeid
-function.</p>
+method to remove notes, or when the length of the cleaned notes is
+unusually large. Unusually large is defined as more than a set number of
+standard deviations above the mean clean note length, and is calculated
+using the extremeid function.</p>
 <p>For this method, a larger dataset may be necessary to demonstrate the
 presence of outliers, in terms of note size.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -304,7 +303,9 @@ extremeid function is applied. Here, extreme values are defined as those
 that are larger than 4 standard deviations above the mean page length,
 based on a condition in the dataframe (“algorithm”), which resulted in
 different information being presented to note-takers, thus providing
-different notes.</p>
+different notes. In the example below, the note length is beyond the
+calculated outlier value, indicating that the notes represent an extreme
+value.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">extreme_dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extremeid.html">extremeid</a></span><span class="op">(</span>dataset<span class="op">=</span><span class="va">fnc</span>, extreme<span class="op">=</span><span class="fl">4</span>, clean_notes<span class="op">=</span><span class="st">"page_notes"</span>, </span>
