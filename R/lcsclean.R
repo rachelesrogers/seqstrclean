@@ -69,9 +69,10 @@ lcsclean <- function(dataset, notes, propor, identifier, pageid){
       reduced_comments[j,]$page_count <- j
 
     }
-  }
+    }
     reduced_comments_substring <- rbind(reduced_comments_substring, reduced_comments)
   }
+  reduced_comments_substring$page_notes <- stringr::str_trim(reduced_comments_substring$page_notes)
   colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "identifier"] = identifier
   colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "page_count"] = pageid
   char_validation_set <- dplyr::left_join(dataset, reduced_comments_substring,
