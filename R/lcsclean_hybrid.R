@@ -19,7 +19,7 @@
 #' Page=c(1,2,1,2,3,1,2), cleaning = c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE),
 #' page_notes = c("The","The cat","The","The dog","The cat ran",
 #' "the chicken was chased", "The goat chased the chicken"))
-#' lcsclean_hybrid(test_dataset,"Notes",0.5,"ID","Page", "cleaning")
+#' lcsclean_hybrid(test_dataset,"Notes",0.25,"ID","Page", "cleaning")
 
 lcsclean_hybrid <- function(dataset, notes, propor, identifier, pageid, toclean){
   #Currently case-sensitive.
@@ -86,6 +86,7 @@ lcsclean_hybrid <- function(dataset, notes, propor, identifier, pageid, toclean)
     }
     reduced_comments_substring <- rbind(reduced_comments_substring, reduced_comments)
   }
+  reduced_comments_substring$lcs_notes <- stringr::str_trim(reduced_comments_substring$lcs_notes)
   colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "identifier"] = identifier
   colnames(reduced_comments_substring)[colnames(reduced_comments_substring) == "page_count"] = pageid
   char_validation_set <- dplyr::left_join(dataset, reduced_comments_substring,

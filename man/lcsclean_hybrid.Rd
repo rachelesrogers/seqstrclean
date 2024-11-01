@@ -34,5 +34,5 @@ Notes=c("The","The cat","The","The dog","The cat ran",
 Page=c(1,2,1,2,3,1,2), cleaning = c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE),
 page_notes = c("The","The cat","The","The dog","The cat ran",
 "the chicken was chased", "The goat chased the chicken"))
-lcsclean_hybrid(test_dataset,"Notes",0.5,"ID","Page", "cleaning")
+lcsclean_hybrid(test_dataset,"Notes",0.25,"ID","Page", "cleaning")
 }
